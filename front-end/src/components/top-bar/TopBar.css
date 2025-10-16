@@ -1,0 +1,48 @@
+.top_bar{
+    background-color: #f0f2f7;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+.top_bar-tight{
+
+}
+.top_bar-tight-ul{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.top_bar-tight-li{
+
+}
+.top_bar-link{
+
+}
+
+.top_bar-left{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.top_bar-left_email{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.top_bar-left_email-text{
+
+}
+.top-bar__email-icon{
+    color: var(--primary-color);
+}
+
+
+.top_bar-left_phone{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.top-bar__phone-icon{
+    color: var(--primary-color);
+}

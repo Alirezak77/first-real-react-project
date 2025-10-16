@@ -1,0 +1,32 @@
+.courses-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.courses-header__right{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.courses-header__title{
+    font-weight: bold;
+}
+
+.courses-header__text{
+    font-size: 14px;
+    color: rgb(108, 106, 106);
+}
+
+.courses-header__link{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border-radius: 0.5rem;
+    gap: 5px;
+}
+

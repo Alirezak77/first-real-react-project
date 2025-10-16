@@ -1,0 +1,73 @@
+.landing{
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(background_landing.jfif) no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  text-align: center;
+  padding: 9rem 0;
+  color: var(--white-color);
+}
+
+.landing_title {
+  font-size: 3.4rem;
+  font-weight: bold;
+}
+
+.landing_subtitle {
+  font-size: 1.8rem;
+  margin-top: 0.3rem;
+}
+
+.landing_search-bar{
+    width: 700px;
+    margin: 3rem auto;
+    position: relative;
+
+}
+
+.search-bar-input{
+    width: 100%;
+    padding: 25px;
+    border: none;
+    border-radius: 15px;
+}
+
+.search-bar-btn{
+    position: absolute;
+    left: 1rem;
+    top: 0.8rem;
+    height: 6rem;
+    width: 6rem;
+    border: none;
+    border-radius: 15px;
+    background-color: var(--primary-color);
+}
+
+.landing__searchbar-icon{
+    color: var(--white-color);
+    font-size: 25px;
+}
+
+.landing-status{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.landing-status_item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+.landing-status_item svg{
+    fill: var(--white-color);
+}
+
+.landing-status_count{
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.landing-status_title{
+    font-weight: bold;
+}
