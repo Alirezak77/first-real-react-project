@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./NavBar.css";
+import AuthContex from "../../contex/authContex";
+import { Link } from "react-router-dom";
+
 export default function NavBar() {
+
+  const authContex = useContext(AuthContex)
+  console.log(authContex);
+  
   return (
     <div className="nav_bar">
       <div className="nav_bar-right">
@@ -106,9 +113,16 @@ export default function NavBar() {
         <a href="w" className="card">
             <i class="fas fa-shopping-cart main-header__cart-icon"></i>
         </a>
-        <a href="w" className="profile">
-            <span class="main-header__profile-text">علیرضا کنگاوری</span>
-        </a>
+
+
+        {authContex.isLogedIn ? (
+          <Link to="w" className="profile">
+            <span class="main-header__profile-text">{authContex.userInfos.name}</span>
+        </Link>
+        ) : (<Link to="/login" className="profile">
+            <span class="main-header__profile-text">ورود/ثبت‌ نام</span>
+        </Link>)}
+        
       </div>
     </div>
   );

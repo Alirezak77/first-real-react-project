@@ -53,15 +53,11 @@ export default function Register() {
       console.log(result);
       
       authContex.login(result.user , result.accessToken)})
+
+      console.log(authContex);
+      
   }
 
-  // {
-//     "name": "{{$randomFullName}}",
-//     "username": "{{$randomUserName}}",
-//     "email": "{{$randomEmail}}",
-//     "password": "123456",
-//     "confirmPassword": "123456" 
-// }
 
   return (
     
