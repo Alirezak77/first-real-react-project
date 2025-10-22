@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export default function NavBar() {
   const authContex = useContext(AuthContex);
-  console.log(authContex);
+  
 
   const [allMenu, setAllMenu] = useState([]);
 

@@ -39,7 +39,7 @@ function App() {
     else{
       alert('dd')
     }
-    console.log(localStorageData);
+    
     
   },[login])
 

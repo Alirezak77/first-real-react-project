@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./CoursInfo.css";
 import NavBar from "../../components/nav-bar/NavBar";
 import TopBar from "../../components/top-bar/TopBar";
@@ -7,8 +7,48 @@ import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 import CoursBoxDetail from "../../components/cours-box-detail/CoursBoxDetail";
 import CommentBox from "../../components/comment-box/CommentBox";
 import Accordion from 'react-bootstrap/Accordion';
+import { useParams } from "react-router-dom";
 
 export default function CoursInfo() {
+  const [comments , setComments]= useState()
+  const [session , setSession]= useState()
+  const [courseDetail , setCourseDetail]= useState()  
+  const [updatedAt , setUpdatedAt] = useState('')
+   const [loading, setLoading] = useState(true);
+  const {coursName}= useParams()
+   
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true); // شروع لود
+      try {
+        const res = await fetch(`http://localhost:4000/v1/courses/${coursName}`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("user"))}`,
+          },
+        });
+
+        const coursInfo = await res.json();
+        setComments(coursInfo.comments);
+        setSession(coursInfo.session);
+        setCourseDetail(coursInfo);
+        setUpdatedAt(coursInfo.updatedAt)
+        console.log(coursInfo);
+      } catch (error) {
+        console.error("Error fetching course data:", error);
+      } finally {
+        setLoading(false); // تموم شد
+      }
+    };
+
+    fetchData();
+  }, [coursName]);
+
+  if (loading || !courseDetail) {
+    return <div className="text-center p-4 text-gray-500">در حال بارگذاری...</div>;
+  }
+
+  
   return (
     <>
       <TopBar />
@@ -33,15 +73,10 @@ export default function CoursInfo() {
                 آموزش برنامه نویسی فرانت اند
               </a>
               <h1 class="course-info__title">
-                آموزش 20 کتابخانه جاوااسکریپت برای بازار کار
+                {courseDetail.name}
               </h1>
               <p class="course-info__text">
-                امروزه کتابخانه‌ها کد نویسی را خیلی آسان و لذت بخش تر کرده اند.
-                به قدری که حتی امروزه هیچ شرکت برنامه نویسی پروژه های خود را با
-                Vanilla Js پیاده سازی نمی کند و همیشه از کتابخانه ها و فریمورک
-                های موجود استفاده می کند. پس شما هم اگه میخواید یک برنامه نویس
-                عالی فرانت اند باشید، باید کتابخانه های کاربردی که در بازار کار
-                استفاده می شوند را به خوبی بلد باشید
+                {courseDetail.description}
               </p>
               <div class="course-info__social-media">
                 <a href="w" class="course-info__social-media-item">
@@ -59,7 +94,7 @@ export default function CoursInfo() {
             <div class="col-6">
               <video
                 src=""
-                poster="/images/courses/js_project.png"
+                poster={courseDetail.cover}
                 class="course-info__video"
                 controls
               ></video>
@@ -87,7 +122,7 @@ export default function CoursInfo() {
                     />
                     <CoursBoxDetail
                       title={"آخرین بروزرسانی:"}
-                      text={"1403/05/15"}
+                      text={updatedAt.slice(0 , 10)}
                       icon={"calendar-alt"}
                     />
                     <CoursBoxDetail
