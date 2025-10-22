@@ -1,13 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./NavBar.css";
 import AuthContex from "../../contex/authContex";
 import { Link } from "react-router-dom";
 
 export default function NavBar() {
-
-  const authContex = useContext(AuthContex)
+  const authContex = useContext(AuthContex);
   console.log(authContex);
-  
+
+  const [allMenu, setAllMenu] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:4000/v1/menus`)
+      .then((res) => res.json())
+      .then((data) => setAllMenu(data));
+  }, []);
+
   return (
     <div className="nav_bar">
       <div className="nav_bar-right">
@@ -22,107 +29,52 @@ export default function NavBar() {
               صفحه اصلی
             </a>
           </li>
-          <li className="nav_bar_menu-item">
-            <a href="w" className="item_link">فرانت اند
-              <i class="fas fa-angle-down main-header__link-icon"></i>
-              <ul class="main-header__dropdown">
-                <li class="main-header__dropdown-item">
-                  <a href="w" class="item_link">آموزش Html
-                  </a>
-                </li>
-                <li class="main-header__dropdown-item">
-                  <a href="w" class="item_link"> آموزش Css
-                  </a>
-                </li>
-                <li class="main-header__dropdown-item">
-                  <a href="w" class="item_link">آموزش جاوا اسکریپت
-                  </a>
-                </li>
-                <li class="main-header__dropdown-item">
-                  <a href="w" class="item_link">آموزش FlexBox
-                  </a>
-                </li>
-                <li class="main-header__dropdown-item">
-                  <a href="w" class="item_link">آموزش جامع ری‌اکت
-                  </a>
-                </li>
-              </ul>
-            </a>
-          </li>
-          <li class="nav_bar_menu-item">
-                  <a href="w" class="item_link">امنیت
+
+          {allMenu.map((menu) => (
+            <li className="nav_bar_menu-item">
+              <Link to={menu.href} className="item_link">
+                {menu.title}
+                {menu.submenus.length !== 0 && (
+                  <>
                     <i class="fas fa-angle-down main-header__link-icon"></i>
                     <ul class="main-header__dropdown">
-                      <li class="main-header__dropdown-item">
-                        <a href="w" class="item_link">آموزش کالی لینوکس</a>
-                      </li>
-                      <li class="main-header__dropdown-item">
-                        <a href="w" class="item_link">آموزش پایتون سیاه</a>
-                      </li>
-                      <li class="main-header__dropdown-item">
-                        <a href="w" class="item_link">آموزش جاوا اسکریپت سیاه</a>
-                      </li>
-                      <li class="main-header__dropdown-item">
-                        <a href="w" class="item_link">آموزش شبکه</a>
-                      </li>
+                      {menu.submenus.map((menu) => {
+                        return (
+                          <li class="main-header__dropdown-item">
+                            <Link to={menu.href} class="item_link">
+                              {menu.title}
+                            </Link>
+                          </li>
+                        );
+                      })}
                     </ul>
-                  </a>
-                </li>
-                <li class="nav_bar_menu-item">
-                  <a href="w" class="item_link">مقالات
-                    <i class="fas fa-angle-down main-header__link-icon"></i>
-                    <ul class="main-header__dropdown">
-                      <li class="main-header__dropdown-item">
-                        <a href="w" class="item_link">توسعه وب</a>
-                      </li>
-                      <li class="main-header__dropdown-item">
-                        <a href="w" class="item_link">جاوا اسکریپت</a>
-                      </li>
-                      <li class="main-header__dropdown-item">
-                        <a href="w" class="item_link">فرانت اند</a>
-                      </li>
-                    </ul>
-                  </a>
-                </li>
-                <li class="nav_bar_menu-item">
-                  <a href="w" class="item_link">پایتون
-                    <i class="fas fa-angle-down main-header__link-icon"></i>
-                    <ul class="main-header__dropdown">
-                      <li class="main-header__dropdown-item">
-                        <a href="w" class="item_link">دوره متخصص پایتون</a>
-                      </li>
-                      <li class="main-header__dropdown-item">
-                        <a href="w" class="item_link">دوره هوش مصنوعی با پایتون</a>
-                      </li>
-                      <li class="main-header__dropdown-item">
-                        <a href="w" class="item_link">دوره متخصص جنگو</a>
-                      </li>
-                    </ul>
-                  </a>
-                </li>
-                <li class="nav_bar_menu-item">
-                  <a href="w" class="item_link">مهارت های نرم</a>
-                </li>
+                  </>
+                )}
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
 
       <div className="nav_bar-left">
         <a href="w" className="search">
-            <i class="fas fa-search main-header__search-icon"></i>
+          <i class="fas fa-search main-header__search-icon"></i>
         </a>
         <a href="w" className="card">
-            <i class="fas fa-shopping-cart main-header__cart-icon"></i>
+          <i class="fas fa-shopping-cart main-header__cart-icon"></i>
         </a>
-
 
         {authContex.isLogedIn ? (
           <Link to="w" className="profile">
-            <span class="main-header__profile-text">{authContex.userInfos.name}</span>
-        </Link>
-        ) : (<Link to="/login" className="profile">
+            <span class="main-header__profile-text">
+              {authContex.userInfos.name}
+            </span>
+          </Link>
+        ) : (
+          <Link to="/login" className="profile">
             <span class="main-header__profile-text">ورود/ثبت‌ نام</span>
-        </Link>)}
-        
+          </Link>
+        )}
       </div>
     </div>
   );
