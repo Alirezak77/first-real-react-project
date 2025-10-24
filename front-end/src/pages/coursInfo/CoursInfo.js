@@ -18,13 +18,15 @@ export default function CoursInfo() {
   const {coursName}= useParams()
    
   useEffect(() => {
+    const localStorageData= JSON.parse(localStorage.getItem('user'))
+    
     const fetchData = async () => {
       setLoading(true); // شروع لود
       try {
         const res = await fetch(`http://localhost:4000/v1/courses/${coursName}`, {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("user"))}`,
+            Authorization: `Bearer ${localStorageData === null ? null : localStorageData}`,
           },
         });
 
@@ -319,7 +321,7 @@ export default function CoursInfo() {
                     زمینه وب فعالیت داشته باشم.و..
                   </p>
                 </div>
-                <CommentBox />
+                
                 {/* Finish Teacher Details */}
 
                 {/* start left colom */}
