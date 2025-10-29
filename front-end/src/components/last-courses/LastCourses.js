@@ -22,7 +22,7 @@ export default function LastCourses() {
       <div class="container">
         <CoursesHeader title={'جدید ترین دوره ها'} desc={'سکوی پرتاپ شما به سمت موفقیت'} btnTitle={'همه دوره ها'} btnHref={'all-courses'}/>
         <div className='row'>
-          {allCourses.map(course=>(
+          {allCourses.slice(0 , 6).map(course=>(
             <CoursBox {...course}/>
           ))}
           
