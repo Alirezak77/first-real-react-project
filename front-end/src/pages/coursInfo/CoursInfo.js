@@ -16,18 +16,19 @@ export default function CoursInfo() {
   const [updatedAt , setUpdatedAt] = useState('')
    const [loading, setLoading] = useState(true);
   const {coursName}= useParams()
-   
+  
+  
+  
   useEffect(() => {
-    const localStorageData= JSON.parse(localStorage.getItem('user'))
     
+    const localStorageData= JSON.parse(localStorage.getItem('user'))
     const fetchData = async () => {
       setLoading(true); // شروع لود
       try {
         const res = await fetch(`http://localhost:4000/v1/courses/${coursName}`, {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${localStorageData === null ? null : localStorageData}`,
-          },
+            Authorization: `Bearer ${localStorageData === null ? null : localStorageData}`}
         });
 
         const coursInfo = await res.json();

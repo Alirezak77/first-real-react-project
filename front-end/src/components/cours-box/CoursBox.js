@@ -1,16 +1,17 @@
 import React from 'react'
 import './CoursBox.css'
+import { Link } from 'react-router-dom'
 
-export default function CoursBox() {
+export default function CoursBox(prop) {
   return (
     <div className='col-4'>
 
         <div class="course-box">
-                  <a href="w">
-                    <img src="/images/courses/fareelancer.png" alt="Course img" class="course-box__img" />
-                  </a>
+                  <Link to= {`/course-info/${prop.shortName}`}>
+                    <img src={prop.cover} alt="Course img" class="course-box__img" />
+                  </Link>
                   <div class="course-box__main">
-                    <a href="w" class="course-box__title">دوره پروژه محور متخصص جنگو</a>
+                    <Link to={`/course-info/${prop.shortName}`} class="course-box__title">{prop.name}</Link>
 
                     <div class="course-box__rating-teacher">
                       <div class="course-box__teacher">
@@ -36,10 +37,10 @@ export default function CoursBox() {
                   </div>
 
                   <div class="course-box__footer">
-                    <a href="w" class="course-box__footer-link">
+                    <Link to={`/course-info/${prop.shortName}`} class="course-box__footer-link">
                       مشاهده اطلاعات
                       <i class="fas fa-arrow-left course-box__footer-icon"></i>
-                    </a>
+                    </Link>
                   </div>
 
                 </div>
