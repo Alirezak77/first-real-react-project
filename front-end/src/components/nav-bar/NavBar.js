@@ -25,9 +25,9 @@ export default function NavBar() {
         />
         <ul className="nav_bar_menu">
           <li className="nav_bar_menu-item">
-            <a href="w" className="item_link">
+            <Link to={'/'} className="item_link">
               صفحه اصلی
-            </a>
+            </Link>
           </li>
 
           {allMenu.map((menu) => (
