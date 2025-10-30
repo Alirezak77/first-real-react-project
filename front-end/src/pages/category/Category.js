@@ -10,9 +10,7 @@ import { useParams } from "react-router-dom";
 export default function Category() {
   const [courses, setCourses] = useState([]);
   const { categoryName } = useParams();
-  console.log(categoryName);
-
-  console.log(courses);
+  const [showCourses, setShowCourses]=useState([])
 
   useEffect(() => {
     if (categoryName) {
@@ -101,10 +99,10 @@ export default function Category() {
                     </form>
                   </div>
                 </div>
-                {courses.map((course) => (
+                {showCourses.map((course) => (
                   <CoursBox {...course} />
                 ))}
-                <Pagenation />
+                <Pagenation items={courses} itemCount={2} pathname={`/category-info/${categoryName}`} setShowCourses={setShowCourses}/>
               </>
             )}
           </div>

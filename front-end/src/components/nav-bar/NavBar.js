@@ -32,7 +32,7 @@ export default function NavBar() {
 
           {allMenu.map((menu) => (
             <li className="nav_bar_menu-item">
-              <Link to={menu.href} className="item_link">
+              <Link to={`${menu.href}/1`} className="item_link">
                 {menu.title}
                 {menu.submenus.length !== 0 && (
                   <>

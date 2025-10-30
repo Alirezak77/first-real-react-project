@@ -11,7 +11,7 @@ const routes =[
     {path : '/',  element:<MainPage/>},
     {path : '/course-info/:coursName' , element: <CoursInfo/>},
     {path : '/article-info/:articleName' , element: <ArticleInfo/>},
-    {path : '/category-info/:categoryName' , element: <Category/>},
+    {path : '/category-info/:categoryName/:page' , element: <Category/>},
     {path : '/all-courses/:page' , element: <AllCourses/>},
     {path : '/login' , element: <Login/>},
     {path : '/register' , element: <Register/>}
