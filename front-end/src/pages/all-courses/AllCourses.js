@@ -9,6 +9,7 @@ import Pagenation from "../../components/pagenation/Pagenation";
 
 export default function AllCourses() {
   const [allcourses, setAllCourses]= useState([])
+  const [showCourses, setShowCourses]=useState([])
   useEffect(()=>{
     fetch(`http://localhost:4000/v1/courses`).then(res=>res.json()).then(courses=> setAllCourses(courses))
   },[])
@@ -28,14 +29,19 @@ export default function AllCourses() {
       <div className="courses">
         <div className="container">
           <div className="row">
-            {allcourses.map(course=>{
+            {showCourses.map(course=>{
               return <CoursBox {...course}/>
             })}
           </div>
         </div>
       </div>
 
-      <Pagenation />
+      <Pagenation 
+      items={allcourses}
+      itemCount={2}
+      pathname={"/all-courses"}
+      setShowCourses={setShowCourses}
+      />
 
       <Footer />
     </>

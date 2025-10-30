@@ -20,7 +20,7 @@ export default function LastCourses() {
   return (
     <div class="courses">
       <div class="container">
-        <CoursesHeader title={'جدید ترین دوره ها'} desc={'سکوی پرتاپ شما به سمت موفقیت'} btnTitle={'همه دوره ها'} btnHref={'all-courses'}/>
+        <CoursesHeader title={'جدید ترین دوره ها'} desc={'سکوی پرتاپ شما به سمت موفقیت'} btnTitle={'همه دوره ها'} btnHref={'all-courses/1'}/>
         <div className='row'>
           {allCourses.slice(0 , 6).map(course=>(
             <CoursBox {...course}/>

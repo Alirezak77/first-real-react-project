@@ -12,7 +12,7 @@ const routes =[
     {path : '/course-info/:coursName' , element: <CoursInfo/>},
     {path : '/article-info/:articleName' , element: <ArticleInfo/>},
     {path : '/category-info/:categoryName' , element: <Category/>},
-    {path : '/all-courses' , element: <AllCourses/>},
+    {path : '/all-courses/:page' , element: <AllCourses/>},
     {path : '/login' , element: <Login/>},
     {path : '/register' , element: <Register/>}
 ]
