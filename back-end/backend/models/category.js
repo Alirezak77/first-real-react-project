@@ -6,6 +6,10 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    name: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
@@ -13,3 +17,4 @@ const schema = new mongoose.Schema(
 const model = mongoose.model("Category", schema);
 
 module.exports = model;
+
