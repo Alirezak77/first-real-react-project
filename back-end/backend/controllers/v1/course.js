@@ -108,6 +108,13 @@ exports.register = async (req, res) => {
 exports.getCategoryCourses = async (req, res) => {
   const { categoryName } = req.params;
   const category = await categoryModel.find({ name: categoryName })
+
+  if (!category) {
+   return res.status(404).json({
+     message: `Category with title "${categoryName}" not found.`,
+     courses: [] // یک آرایه خالی هم می‌توان برگرداند تا فرانت با مشکل مواجه نشود
+   });
+ }
   const categoryCourses = await courseModel.find({ categoryID: category[0]._id })
   res.json(categoryCourses)
 };
