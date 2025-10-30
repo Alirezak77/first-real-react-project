@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./AllCourses.css";
 import TopBar from "../../components/top-bar/TopBar";
 import NavBar from "../../components/nav-bar/NavBar";
@@ -8,6 +8,13 @@ import CoursBox from "../../components/cours-box/CoursBox";
 import Pagenation from "../../components/pagenation/Pagenation";
 
 export default function AllCourses() {
+  const [allcourses, setAllCourses]= useState([])
+  useEffect(()=>{
+    fetch(`http://localhost:4000/v1/courses`).then(res=>res.json()).then(courses=> setAllCourses(courses))
+  },[])
+
+
+
   return (
     <>
       <TopBar />
@@ -21,11 +28,9 @@ export default function AllCourses() {
       <div className="courses">
         <div className="container">
           <div className="row">
-            <CoursBox />
-            <CoursBox />
-            <CoursBox />
-            <CoursBox />
-            <CoursBox />
+            {allcourses.map(course=>{
+              return <CoursBox {...course}/>
+            })}
           </div>
         </div>
       </div>
