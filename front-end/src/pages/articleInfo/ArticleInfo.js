@@ -1,12 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ArticleInfo.css";
 import TopBar from "../../components/top-bar/TopBar";
 import NavBar from "../../components/nav-bar/NavBar";
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 import Footer from "../../components/footer/Footer";
 import CommentBox from "../../components/comment-box/CommentBox";
+import { useParams } from "react-router-dom";
 
 export default function ArticleInfo() {
+  const {articleName} = useParams()
+  const [articleDetails , setArticleDetails]= useState({})
+  const[articleCategory , setArticleCategory]=useState({})
+  const[articleCreatedDate , setArticleCreatedDate]=useState('')
+  console.log(articleName);
+  
+  useEffect(()=>{
+    const localStorageData = JSON.parse(localStorage.getItem('user'))
+    fetch(`http://localhost:4000/v1/articles/${articleName}` , {
+      method: 'GET',
+      headers: {Authorization: `Bearer ${localStorageData === null ? null : localStorageData}`}
+    })
+    .then(res=>res.json())
+    .then(article=>{
+      setArticleDetails(article)
+      setArticleCategory(article.categoryID)
+      setArticleCreatedDate(article.createdAt)
+      
+    })
+  },[])
   return (
     <>
       <TopBar />
@@ -29,20 +50,20 @@ export default function ArticleInfo() {
             <div class="col-8">
               <div class="article">
                 <h1 class="article__title">
-                  معرفی بهترین سایت آموزش جاوا اسکریپت [ تجربه محور ] + آموزش رایگان
+                    {articleDetails.title}
                 </h1>
                 <div class="article__header">
                   <div class="article-header__category article-header__item">
                     <i class="far fa-folder article-header__icon"></i>
-                    <a href="w" class="article-header__text">جاوا اسکریپت</a>
+                    <a href="w" class="article-header__text">{articleCategory.name}</a>
                   </div>
-                  <div class="article-header__category article-header__item">
+                  {/* <div class="article-header__category article-header__item">
                     <i class="far fa-user article-header__icon"></i>
                     <span class="article-header__text"> ارسال شده توسط قدیر</span>
-                  </div>
+                  </div> */}
                   <div class="article-header__category article-header__item">
                     <i class="far fa-clock article-header__icon"></i>
-                    <span class="article-header__text"> ارسال شده توسط قدیر</span>
+                    <span class="article-header__text"> {articleCreatedDate.slice(0,10)}</span>
                   </div>
                   <div class="article-header__category article-header__item">
                     <i class="far fa-eye article-header__icon"></i>
@@ -150,7 +171,7 @@ export default function ArticleInfo() {
                   </div>
                 </div>
               </div>
-              <CommentBox/>
+              {/* <CommentBox/> */}
 
 
 

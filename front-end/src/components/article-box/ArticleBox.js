@@ -7,7 +7,7 @@ export default function ArticleBox({title , desc , img , shortName}) {
     <div class="col-4">
       <div class="article-card">
         <div class="article-card__header">
-          <Link to={shortName} class="article-card__link-img">
+          <Link to={`/article-info/${shortName}`} class="article-card__link-img">
             <img
               src={img}
               class="article-card__img"
@@ -16,13 +16,13 @@ export default function ArticleBox({title , desc , img , shortName}) {
           </Link>
         </div>
         <div class="article-card__content">
-          <Link to={shortName} class="article-card__link">
+          <Link to={`/article-info/${shortName}`} class="article-card__link">
             {title}
           </Link>
           <p class="article-card__text">
             {desc}
           </p>
-          <Link to={shortName} class="article-card__btn">
+          <Link to={`/article-info/${shortName}`} class="article-card__btn">
             بیشتر بخوانید
           </Link>
         </div>
