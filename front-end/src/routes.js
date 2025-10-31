@@ -5,6 +5,7 @@ import ArticleInfo from "./pages/articleInfo/ArticleInfo"
 import AllCourses from "./pages/all-courses/AllCourses"
 import Login from "./pages/login-page/Login"
 import Register from "./pages/login-page/register-page/Register"
+import Article from "./pages/article/Article"
 
 
 const routes =[
@@ -14,7 +15,8 @@ const routes =[
     {path : '/category-info/:categoryName/:page' , element: <Category/>},
     {path : '/all-courses/:page' , element: <AllCourses/>},
     {path : '/login' , element: <Login/>},
-    {path : '/register' , element: <Register/>}
+    {path : '/register' , element: <Register/>},
+    {path : '/article/:page' , element: <Article/>}
 ]
 
 export default routes

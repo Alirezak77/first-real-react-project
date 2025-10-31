@@ -23,11 +23,12 @@ export default function LasrArticles() {
           title={"جدید ترین مقاله ها"}
           desc={"پیش به سوی ارتقای دانش"}
           btnTitle={"تمامی مقاله ها"}
+          btnHref={'article/1'}
         />
         <div class="articles__content">
           <div class="row">
             {allArticles.slice(0,3).map((article)=>{
-              return <ArticleBox title={article.title} desc={article.description} img={article.cover} shortName={article.shortName}/>
+              return <ArticleBox {...article}/>
             })}
             
           </div>
