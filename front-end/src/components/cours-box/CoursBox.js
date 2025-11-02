@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 export default function CoursBox(prop) {
   return (
-    <div className='col-4'>
+    <div className='col-4' style={{width: `${prop.isSlider && '100%'}`}}>
 
         <div class="course-box">
                   <Link to= {`/course-info/${prop.shortName}`}>
