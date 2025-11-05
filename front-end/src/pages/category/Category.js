@@ -14,6 +14,7 @@ export default function Category() {
   const [status , setStatus]= useState('default')
   const [orderedCourses , setOrderedCourses]=useState([])
   const [statusTitle , setStatusTitle] = useState('مرتب سازی پیش فرض')
+  const [searchValue , setSearchValue]= useState('')
 
 
 
@@ -81,6 +82,11 @@ export default function Category() {
 const statusTitleHandler = (event)=>{
     setStatusTitle(event.target.textContent)
 
+}
+const searchValueChangHandler = (event)=>{
+  setSearchValue(event.target.value)
+  const filteredSearch = courses.filter(course=> course.name.includes(event.target.value))
+  setOrderedCourses(filteredSearch)
 }
 
   return (
@@ -156,6 +162,8 @@ const statusTitleHandler = (event)=>{
                         type="text"
                         class="courses-top-bar__input"
                         placeholder="جستجوی دوره ..."
+                        value={searchValue}
+                        onChange={searchValueChangHandler}
                       />
                       <i class="fas fa-search courses-top-bar__search-icon"></i>
                     </form>
