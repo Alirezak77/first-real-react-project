@@ -109,12 +109,12 @@ const searchValueChangHandler = (event)=>{
               <>
                 <div class="courses-top-bar">
                   <div class="courses-top-bar__right">
-                    <div class="courses-top-bar__row-btn courses-top-bar__icon--active">
+                    {/* <div class="courses-top-bar__row-btn courses-top-bar__icon--active">
                       <i class="fas fa-border-all courses-top-bar__icon"></i>
                     </div>
                     <div class="courses-top-bar__column-btn">
                       <i class="fas fa-align-left courses-top-bar__icon"></i>
-                    </div>
+                    </div> */}
 
                     <div class="courses-top-bar__selection">
                       <span class="courses-top-bar__selection-title">
