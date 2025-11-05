@@ -7,9 +7,16 @@ import Login from "./pages/login-page/Login"
 import Register from "./pages/login-page/register-page/Register"
 import Article from "./pages/article/Article"
 import Search from "./pages/search/Search"
+import Index from "./pages/admin-panel/Index"
+import Users from "./pages/admin-panel/users/Users"
+import AdminCourses from "./pages/admin-panel/adminCourses/AdminCourses"
+import Menus from "./pages/admin-panel/menus/Menus"
+import AdminArticle from "./pages/admin-panel/adminArticle/AdminArticle"
 
 
 const routes =[
+
+    //Paths for the client site
     {path : '/',  element:<MainPage/>},
     {path : '/course-info/:coursName' , element: <CoursInfo/>},
     {path : '/article-info/:articleName' , element: <ArticleInfo/>},
@@ -18,7 +25,16 @@ const routes =[
     {path : '/login' , element: <Login/>},
     {path : '/register' , element: <Register/>},
     {path : '/article/:page' , element: <Article/>},
-    {path : '/search/:value' , element : <Search/>}
+    {path : '/search/:value' , element : <Search/>},
+
+
+    //Paths for the admin panel
+    {path : '/admin-panel/*' , element : <Index/> , children: [
+        {path : 'users' , element : <Users/>},
+        {path : 'courses' , element : <AdminCourses/>},
+        {path : 'menus' , element : <Menus/>},
+        {path : 'article' , element : <AdminArticle/>}
+    ]}
 ]
 
 export default routes
