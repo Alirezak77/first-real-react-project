@@ -38,7 +38,7 @@ export default function AllCourses() {
 
       <Pagenation 
       items={allcourses}
-      itemCount={2}
+      itemCount={6}
       pathname={"/all-courses"}
       setShowCourses={setShowCourses}
       />
