@@ -161,9 +161,18 @@ const statusTitleHandler = (event)=>{
                     </form>
                   </div>
                 </div>
-                {orderedCourses.map((course) => (
-                  <CoursBox {...course} />
-                ))}
+                {showCourses.length === 0 ? (
+                  <>
+                    <div className="alert alert-warning">هیچ دوره ای برای {' '}{statusTitle}{' '}وجود ندارد</div>
+                  </>
+                ) : (
+                  <>
+                  {showCourses.map((course) => (
+                    <CoursBox {...course} />
+                  ))}
+                  </>
+                  
+                )}
                 <Pagenation items={orderedCourses} itemCount={6} pathname={`/category-info/${categoryName}`} setShowCourses={setShowCourses}/>
               </>
             )}
