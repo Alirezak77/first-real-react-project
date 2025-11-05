@@ -32,7 +32,7 @@ export default function CoursBox(prop) {
                         <i class="fas fa-users course-box__users-icon"></i>
                         <span class="course-box__users-text">500</span>
                       </div>
-                      <span class="course-box__price">1,000,000</span>
+                      <span class="course-box__price">{prop.price === 0 ? 'رایگان' : prop.price.toLocaleString() +' '+'تومان'}</span>
                     </div>
                   </div>
 
