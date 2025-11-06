@@ -10,17 +10,16 @@ import { useContext } from 'react'
 
 export default function Register() {
   const authContex = useContext(AuthContex)
-  console.log(authContex);
-  
-
-
-
   const [formState , onInputHandler] = useForm({
     name:{
       value:'',
       isValid:false
     },
     userName:{
+      value:'',
+      isValid:false
+    },
+    phone:{
       value:'',
       isValid:false
     },
@@ -39,6 +38,7 @@ export default function Register() {
       name: formState.inputs.name.value,
       username: formState.inputs.userName.value,
       email: formState.inputs.email.value,
+      phone: formState.inputs.phone.value,
       password: formState.inputs.password.value,
       confirmPassword: formState.inputs.password.value,
     }
@@ -87,6 +87,23 @@ export default function Register() {
                   maxValidator(20)
                 ]
                 }
+                />
+              <i class="login-form__username-icon fa fa-user"></i>
+            </div>
+            <div class="login-form__username">
+
+                <InpoutComponent
+                type= 'text'
+                element = 'input'
+                className="login-form__username-input"
+                placeholder='شماره تماس'
+                id='phone'
+                onInputHandler={onInputHandler}
+                validations={[
+                  requiredValidator(),
+                  minValidator(10),
+                  maxValidator(12)
+                ]}
                 />
               <i class="login-form__username-icon fa fa-user"></i>
             </div>
