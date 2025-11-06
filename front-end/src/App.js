@@ -37,11 +37,11 @@ function App() {
       })
     }
     else{
-      alert('dd')
+      setIsLogedIn(false)
     }
     
     
-  },[login])
+  },[login , logout])
 
   return (
     <AuthContex.Provider className="App" 
