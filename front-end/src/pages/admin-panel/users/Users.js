@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "../../../components/admin-components/DataTable/DataTable";
 
 export default function Users() {
+  const [users, setUsers]=useState([])
+  useEffect(()=>{
+    const localStorageData = JSON.parse(localStorage.getItem('user'))
+    fetch(`http://localhost:4000/v1/users` ,{
+      headers: {
+        Authorization : `Bearer ${localStorageData}`
+      }
+    }).then(res=>res.json()).then(users=>setUsers(users)
+    )
+  },[])
   return (
     <>
       <DataTable title="کاربران">
@@ -9,23 +19,20 @@ export default function Users() {
           <thead>
             <tr>
               <th>شناسه</th>
-              <th>نام</th>
-              <th>نام خانوادگی</th>
-              <th>شماره</th>
+              <th>نام و نام خانوادگی</th>
+              
               <th>ایمیل</th>
-              <th>رمز عبور</th>
               <th>ویرایش</th>
               <th>حذف</th>
+              <th>مسدود کردن</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>34223</td>
-              <td>علی</td>
-              <td>سعیدی</td>
-              <td>09123443243</td>
-              <td>ali@gmail.com</td>
-              <td>ehsan1323</td>
+            {users.map((user , index)=>{
+              return <tr>
+              <td>{index + 1}</td>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
               <td>
                 <button type="button" class="btn btn-primary edit-btn">
                   ویرایش
@@ -36,7 +43,14 @@ export default function Users() {
                   حذف
                 </button>
               </td>
+              <td>
+                <button type="button" class="btn btn-danger delete-btn">
+                  مسدود کردن
+                </button>
+              </td>
             </tr>
+            })}
+            
           </tbody>
         </table>
       </DataTable>
