@@ -9,6 +9,7 @@ const articlesRoutes = require("./routes/v1/article");
 const commentsRoutes = require("./routes/v1/comment");
 const searchRoutes = require("./routes/v1/search");
 const notificationRoutes = require("./routes/v1/notification");
+const usersRoutes = require("./routes/v1/user");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
@@ -26,6 +27,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 app.use("/v1/auth", authRoutes);
+app.use("/v1/users", usersRoutes);
 app.use("/v1/courses", courseRoutes);
 app.use("/v1/menus", menuRoutes);
 app.use("/v1/category", categoryRoutes);
