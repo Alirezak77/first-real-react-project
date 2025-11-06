@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import swal from "sweetalert";
 
 export default function Topbar() {
-  const localStorageData = JSON.parse(localStorage.getItem("user"));
   const [adminInfo, setAdminInfo] = useState({});
-  const navigate = useNavigate();
+  const [adminNotifications, setAdminNotifications] = useState([]);
+  const [isShowNotificationsBox, setIsShowNotificationsBox] = useState(false);
+
   useEffect(() => {
+    const localStorageData = JSON.parse(localStorage.getItem("user"));
     fetch(`http://localhost:4000/v1/auth/me`, {
       headers: {
         Authorization: `Bearer ${localStorageData}`,
@@ -15,75 +15,80 @@ export default function Topbar() {
       .then((res) => res.json())
       .then((data) => {
         setAdminInfo(data);
+        setAdminNotifications(data.notifications);
       });
-  }, []);
-  if (adminInfo.role === "USER") {
-    navigate("/");
-  } else {
-    return (
-      <div class="container-fluid">
-        <div class="container">
-          <div class="home-header">
-            <div class="home-right">
-              <div class="home-searchbar">
-                <input type="text" class="search-bar" placeholder="جستجو..." />
-              </div>
-              <div class="home-notification">
-                <button type="button">
-                  <i class="far fa-bell"></i>
-                </button>
-              </div>
-              <div class="home-notification-modal">
-                <ul class="home-notification-modal-list">
-                  <li class="home-notification-modal-item">
-                    <span class="home-notification-modal-text">پیغام ها</span>
-                    <label class="switch">
-                      <input type="checkbox" checked />
-                      <span class="slider round"></span>
-                    </label>
-                  </li>
-                  <li class="home-notification-modal-item">
-                    <span class="home-notification-modal-text">پیغام ها</span>
-                    <label class="switch">
-                      <input type="checkbox" checked />
-                      <span class="slider round"></span>
-                    </label>
-                  </li>
-                  <li class="home-notification-modal-item">
-                    <span class="home-notification-modal-text">پیغام ها</span>
-                    <label class="switch">
-                      <input type="checkbox" checked />
-                      <span class="slider round"></span>
-                    </label>
-                  </li>
-                  <li class="home-notification-modal-item">
-                    <span class="home-notification-modal-text">پیغام ها</span>
-                    <label class="switch">
-                      <input type="checkbox" checked />
-                      <span class="slider round"></span>
-                    </label>
-                  </li>
-                </ul>
-              </div>
+  }, [seeNotification]);
+
+  function seeNotification (notficationID) {
+    const localStorageData = JSON.parse(localStorage.getItem("user"));
+    fetch(`http://localhost:4000/v1/notifications/see/${notficationID}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${localStorageData}`
+      }
+    })
+      .then(res => res.json())
+      .then(err => {
+        console.log(err);
+      })
+  }
+
+  return (
+    <div className="container-fluid">
+      <div className="container">
+        <div
+          className={`home-header ${
+            isShowNotificationsBox && "active-modal-notfication"
+          }`}
+        >
+          <div className="home-right">
+            <div className="home-searchbar">
+              <input type="text" className="search-bar" placeholder="جستجو..." />
             </div>
-            <div class="home-left">
-              <div class="home-profile">
-                <div class="home-profile-image">
-                  <a href="w">
-                    <img src={adminInfo.profile} alt="" />
-                  </a>
-                </div>
-                <div class="home-profile-name">
-                  <a href="w">{adminInfo.name}</a>
-                </div>
-                <div class="home-profile-icon">
-                  <i class="fas fa-angle-down"></i>
-                </div>
+            <div className="home-notification">
+              <button
+                type="button"
+                onMouseEnter={() => setIsShowNotificationsBox(true)}
+              >
+                <i className="far fa-bell"></i>
+              </button>
+            </div>
+            <div
+              className="home-notification-modal"
+              onMouseEnter={() => setIsShowNotificationsBox(true)}
+              onMouseLeave={() => setIsShowNotificationsBox(false)}
+            >
+              <ul className="home-notification-modal-list">
+                {adminNotifications.map((notification) => (
+                  <li className="home-notification-modal-item">
+                    <span className="home-notification-modal-text">
+                      {notification.msg}
+                    </span>
+                    {/* <label className="switch"> */}
+                      <button className="see-button" onClick={() => seeNotification(notification._id)}>تایید</button>
+                    {/* </label> */}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="home-left">
+            <div className="home-profile">
+              <div className="home-profile-image">
+                <a href="#">
+                  <img src={adminInfo.profile} alt="" />
+                </a>
+              </div>
+              <div className="home-profile-name">
+                <a href="#">{adminInfo.name}</a>
+              </div>
+              <div className="home-profile-icon">
+                <i className="fas fa-angle-down"></i>
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }

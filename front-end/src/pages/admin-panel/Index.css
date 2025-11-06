@@ -246,7 +246,7 @@ ul {
   color: #a3abb1;
 }
 #home .home-header .home-right .home-notification-modal {
-  width: 250px;
+  width: 270px;
   border-radius: 3px;
   background-color: #fff;
   -webkit-box-shadow: 0px 0px 5px 1px #ccc;
@@ -739,5 +739,12 @@ ul {
 }
 .active-modal-notfication .home-notification-modal {
   display: block !important;
+}
+.see-button{
+  /* padding: 5px; */
+  color: #150fbf;
+  border: none;
+  border-radius: 10px;
+  background-color: white;
 }
 /*# sourceMappingURL=main.css.map */
