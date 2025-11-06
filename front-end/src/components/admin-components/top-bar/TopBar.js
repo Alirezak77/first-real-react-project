@@ -19,18 +19,18 @@ export default function Topbar() {
       });
   }, [seeNotification]);
 
-  function seeNotification (notficationID) {
+  function seeNotification(notficationID) {
     const localStorageData = JSON.parse(localStorage.getItem("user"));
     fetch(`http://localhost:4000/v1/notifications/see/${notficationID}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        Authorization: `Bearer ${localStorageData}`
-      }
+        Authorization: `Bearer ${localStorageData}`,
+      },
     })
-      .then(res => res.json())
-      .then(err => {
+      .then((res) => res.json())
+      .then((err) => {
         console.log(err);
-      })
+      });
   }
 
   return (
@@ -43,7 +43,11 @@ export default function Topbar() {
         >
           <div className="home-right">
             <div className="home-searchbar">
-              <input type="text" className="search-bar" placeholder="جستجو..." />
+              <input
+                type="text"
+                className="search-bar"
+                placeholder="جستجو..."
+              />
             </div>
             <div className="home-notification">
               <button
@@ -59,16 +63,31 @@ export default function Topbar() {
               onMouseLeave={() => setIsShowNotificationsBox(false)}
             >
               <ul className="home-notification-modal-list">
-                {adminNotifications.map((notification) => (
+                {adminNotifications.length === 0 ? (
                   <li className="home-notification-modal-item">
                     <span className="home-notification-modal-text">
-                      {notification.msg}
+                      پیامی برای نمایش وجود ندارد
                     </span>
-                    {/* <label className="switch"> */}
-                      <button className="see-button" onClick={() => seeNotification(notification._id)}>تایید</button>
-                    {/* </label> */}
                   </li>
-                ))}
+                ) : (
+                  <>
+                    {adminNotifications.map((notification) => (
+                      <li className="home-notification-modal-item">
+                        <span className="home-notification-modal-text">
+                          {notification.msg}
+                        </span>
+                        {/* <label className="switch"> */}
+                        <button
+                          className="see-button"
+                          onClick={() => seeNotification(notification._id)}
+                        >
+                          تایید
+                        </button>
+                        {/* </label> */}
+                      </li>
+                    ))}
+                  </>
+                )}
               </ul>
             </div>
           </div>
