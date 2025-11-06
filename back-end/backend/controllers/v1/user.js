@@ -1,4 +1,5 @@
 const userModel = require("../../models/user");
+const banUserModel = require("../../models/ban-phone");
 
 // exports.create = async (req, res) => {
 //   const { name, description, shortName, categoryID, price } = req.body;

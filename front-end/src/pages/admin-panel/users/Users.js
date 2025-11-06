@@ -45,6 +45,31 @@ export default function Users() {
     });
   };
 
+
+  const banUser = (userID)=>{
+        swal({
+      title: "آیا از مسدود کردن کاربر اطمینان دارید؟",
+      icon: "warning",
+      buttons: ["خیر", "بله"],
+    }).then((result) => {
+      if (result) {
+        fetch(`http://localhost:4000/v1/users/ban/${userID}`, {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${localStorageData}` },
+        }).then((res) => {
+        
+          if (res.ok) {
+            swal({
+              title: "کاربر با موفقیت مسدود شد",
+              icon: "success",
+              buttons: "تایید",
+            })
+          }
+        });
+      }
+    });
+  }
+
   return (
     <>
       <DataTable title="کاربران">
@@ -82,7 +107,7 @@ export default function Users() {
                     </button>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-danger delete-btn">
+                    <button type="button" class="btn btn-danger delete-btn" onClick={()=>{banUser(user._id)}}>
                       مسدود کردن
                     </button>
                   </td>
