@@ -44,6 +44,16 @@ exports.removeUser = async (req, res) => {
   return res.status(200).json("User Deleted Successfully");
 };
 
+exports.banUser = async (req, res) => {
+  const mainUser = await userModel.findOne({ _id: req.params.id }).lean();
+  const banUserResult = banUserModel.create({ phone: mainUser.phone });
+
+  if (banUserResult) {
+    return res.status(200).json({ msg: "User ban successfully" });
+  }
+  return res.status(500).json({ msg: 'Error' })
+};
+
 // exports.banUser = async (req, res) => {
 //     const mainUser = await userModel.find({ _id: req.params.id })
 

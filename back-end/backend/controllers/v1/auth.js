@@ -9,9 +9,9 @@ const registerValidator = require("../../validators/v1/register");
 exports.register = async (req, res) => {
   console.log(req.body);
 
-  const validationResult = registerValidator(req.body);
-  if (validationResult != true) return res.status(422).json(validationResult);
-  const { username, password, name, email } = req.body;
+  // const validationResult = registerValidator(req.body);
+  // if (validationResult != true) return res.status(422).json(validationResult);
+  const { username, password, name, email, phone } = req.body;
 
   const isUserExists = await userModel.findOne({
     $or: [{ username }, { email }],
@@ -31,6 +31,7 @@ exports.register = async (req, res) => {
     email,
     username,
     name,
+    phone,
     password: hashedPassword,
     role: countOfRegisteredUser > 0 ? "USER" : "ADMIN",
   });
