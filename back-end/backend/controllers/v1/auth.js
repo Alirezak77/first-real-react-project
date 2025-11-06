@@ -81,15 +81,22 @@ exports.getMe = async (req, res) => {
     courses.push(userCourse.course);
   }
 
-  const adminNotifications = await notificationsModel
-    .find({ admin: req.user._id })
+  const adminNotifications = await notificationsModel.find({
+    admin: req.user._id,
+  });
 
   const notifications = [];
-  
+
   for (const adminNotification of adminNotifications) {
-    notifications.push(adminNotification.msg);
+    if (adminNotification.see === 0) {
+
+      notifications.push({
+        msg: adminNotification.msg,
+        _id: adminNotification._id
+    });
+    }
   }
-  
+
   return res.json({ ...req.user, courses, notifications });
 };
 

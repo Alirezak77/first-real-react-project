@@ -10,6 +10,10 @@ const schema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
+    see: {
+      type: Number,
+      default: 0
+    },
   },
   { timestamps: true }
 );

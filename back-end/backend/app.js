@@ -8,6 +8,7 @@ const categoryRoutes = require("./routes/v1/category");
 const articlesRoutes = require("./routes/v1/article");
 const commentsRoutes = require("./routes/v1/comment");
 const searchRoutes = require("./routes/v1/search");
+const notificationRoutes = require("./routes/v1/notification");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
@@ -31,5 +32,6 @@ app.use("/v1/category", categoryRoutes);
 app.use("/v1/articles", articlesRoutes);
 app.use("/v1/comments", commentsRoutes);
 app.use("/v1/search", searchRoutes);
+app.use("/v1/notifications", notificationRoutes);
 
 module.exports = app;
