@@ -7,3 +7,8 @@ exports.create = async (req, res) => {
 
   return res.status(201).json(newCategory);
 };
+
+exports.getAll = async (req, res) => {
+  const allCategories = await categoryModel.find()
+  res.json(allCategories)
+}
