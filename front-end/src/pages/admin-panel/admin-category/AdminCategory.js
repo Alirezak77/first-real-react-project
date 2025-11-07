@@ -3,12 +3,12 @@ import DataTable from "../../../components/admin-components/DataTable/DataTable"
 import swal from "sweetalert";
 import { useForm } from "../../../hooks/useForm";
 import InpoutComponent from "../../../components/inpout-component/InpoutComponent";
-import { minValidator , maxValidator } from "../../../validators/rules";
-import './AdminCAtegory.css'
+import { minValidator, maxValidator } from "../../../validators/rules";
+import "./AdminCAtegory.css";
 
 export default function AdminCategory() {
   const [allCategory, setAllCategory] = useState([]);
-
+  const localStorageData = JSON.parse(localStorage.getItem("user"));
   const [formState, onInputHandler] = useForm(
     {
       title: {
@@ -38,7 +38,6 @@ export default function AdminCategory() {
 
   const createNewCategory = (event) => {
     event.preventDefault();
-    const localStorageData = JSON.parse(localStorage.getItem("user"));
 
     const newCategoryInfo = {
       title: formState.inputs.title.value,
@@ -64,6 +63,33 @@ export default function AdminCategory() {
           getAllCategories();
         });
       });
+  };
+
+  const deleteCategory = (categryID) => {
+    swal({
+      title: "آیا از حذف این دسته بندی اطمینان دارید؟",
+      icon: "warning",
+      buttons: ["نه", "بله"],
+    }).then((result) => {
+      if (result) {
+        fetch(`http://localhost:4000/v1/category/${categryID}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${localStorageData}` },
+        })
+          .then((res) =>{
+            if(res.ok){
+                swal({
+                    title:'دسته بندی با موفقیت حذف شد',
+                    icon:'success',
+                    buttons:'تایید'
+                }).then(()=>{
+                    getAllCategories()
+                })
+            }
+          } )
+          
+      }
+    });
   };
 
   return (
@@ -139,7 +165,13 @@ export default function AdminCategory() {
                     </button>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-danger delete-btn">
+                    <button
+                      type="button"
+                      class="btn btn-danger delete-btn"
+                      onClick={() => {
+                        deleteCategory(category._id);
+                      }}
+                    >
                       حذف
                     </button>
                   </td>
