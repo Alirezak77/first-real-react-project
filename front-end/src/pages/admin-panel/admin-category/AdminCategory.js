@@ -27,6 +27,7 @@ export default function AdminCategory() {
     getAllCategories();
   }, []);
 
+  //get all category from database
   function getAllCategories() {
     fetch(`http://localhost:4000/v1/category`)
       .then((res) => res.json())
@@ -36,6 +37,7 @@ export default function AdminCategory() {
       });
   }
 
+  //Add a new category
   const createNewCategory = (event) => {
     event.preventDefault();
 
@@ -65,6 +67,7 @@ export default function AdminCategory() {
       });
   };
 
+  //remove category
   const deleteCategory = (categryID) => {
     swal({
       title: "آیا از حذف این دسته بندی اطمینان دارید؟",
@@ -75,19 +78,50 @@ export default function AdminCategory() {
         fetch(`http://localhost:4000/v1/category/${categryID}`, {
           method: "DELETE",
           headers: { Authorization: `Bearer ${localStorageData}` },
+        }).then((res) => {
+          if (res.ok) {
+            swal({
+              title: "دسته بندی با موفقیت حذف شد",
+              icon: "success",
+              buttons: "تایید",
+            }).then(() => {
+              getAllCategories();
+            });
+          }
+        });
+      }
+    });
+  };
+
+
+  //edit category
+  const editCategory = (categryID) => {
+    swal({
+      title: "عنوان جدید را وارد کنید",
+      content: "input",
+      buttons: "ثبت تغییرات",
+    }).then((result) => {
+      if (result.trim().length) {
+        fetch(`http://localhost:4000/v1/category/${categryID}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorageData}`,
+          },
+          body: JSON.stringify({
+            title: result,
+          }),
         })
-          .then((res) =>{
-            if(res.ok){
-                swal({
-                    title:'دسته بندی با موفقیت حذف شد',
-                    icon:'success',
-                    buttons:'تایید'
-                }).then(()=>{
-                    getAllCategories()
-                })
-            }
-          } )
-          
+          .then((res) => res.json())
+          .then((result) => {
+            swal({
+              title: "دسته بندی مورد نظر با موفقیت ویرایش شد",
+              icon: "success",
+              buttons: "تایید",
+            }).then(() => {
+              getAllCategories();
+            });
+          });
       }
     });
   };
@@ -160,7 +194,13 @@ export default function AdminCategory() {
                   <td>{index + 1}</td>
                   <td>{category.title}</td>
                   <td>
-                    <button type="button" class="btn btn-primary edit-btn">
+                    <button
+                      type="button"
+                      class="btn btn-primary edit-btn"
+                      onClick={() => {
+                        editCategory(category._id);
+                      }}
+                    >
                       ویرایش
                     </button>
                   </td>
