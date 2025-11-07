@@ -118,3 +118,13 @@ exports.getCategoryCourses = async (req, res) => {
   const categoryCourses = await courseModel.find({ categoryID: category[0]._id })
   res.json(categoryCourses)
 };
+
+exports.remove = async (req, res) => {
+  const deletedCourse = await courseModel.findOneAndRemove({
+    _id: req.params.id,
+  });
+  if (!deletedCourse) {
+    return res.status(404).json({ message: "Course Not Found!" });
+  }
+  return res.json(deletedCourse);
+};
