@@ -5,9 +5,15 @@ const categoryModel = require("../../models/category");
 const courseUserModel = require("../../models/course-user");
 
 exports.create = async (req, res) => {
-  const { name, description, shortName, categoryID, price } = req.body;
-
-  console.log(req.body);
+  const {
+    name,
+    description,
+    shortName,
+    categoryID,
+    price,
+    support,
+    status,
+  } = req.body;
 
   const course = await courseModel.create({
     name,
@@ -17,8 +23,9 @@ exports.create = async (req, res) => {
     categoryID,
     price,
     isComplete: 0,
-    support: "گروه تلگرامی",
-    cover: "images/courses/js.jpeg",
+    status,
+    support,
+    cover: req.file.filename
   });
 
   const populatedCourse = await courseModel
@@ -32,9 +39,20 @@ exports.getAll = async (req, res) => {
   const courses = await courseModel
     .find()
     .populate("creator", "-password")
+    .populate("categoryID")
+    .lean()
     .sort({ _id: -1 });
 
-  return res.json(courses);
+  let allCourses = [];
+  courses.forEach((course) => {
+    allCourses.push({
+      ...course,
+      categoryID: course.categoryID.title,
+      creator: course.creator.name,
+    });
+  });
+
+  return res.json(allCourses);
 };
 
 exports.getOne = async (req, res) => {
@@ -107,16 +125,15 @@ exports.register = async (req, res) => {
 
 exports.getCategoryCourses = async (req, res) => {
   const { categoryName } = req.params;
-  const category = await categoryModel.find({ name: categoryName })
-
-  if (!category) {
-   return res.status(404).json({
-     message: `Category with title "${categoryName}" not found.`,
-     courses: [] // یک آرایه خالی هم می‌توان برگرداند تا فرانت با مشکل مواجه نشود
-   });
- }
-  const categoryCourses = await courseModel.find({ categoryID: category[0]._id })
-  res.json(categoryCourses)
+  const category = await categoryModel.find({ name: categoryName });
+  if (category.length) {
+    const categoryCourses = await courseModel.find({
+      categoryID: category[0]._id,
+    });
+    res.json(categoryCourses);
+  } else {
+    res.json([]);
+  }
 };
 
 exports.remove = async (req, res) => {

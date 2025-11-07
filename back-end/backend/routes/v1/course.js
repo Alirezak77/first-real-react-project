@@ -14,7 +14,7 @@ const router = express.Router();
 router
   .route("/")
   .post(
-    // multer({ storage: multerStorage }).single('cover'),
+    multer({ storage: multerStorage, limits: {fileSize: 1000000000} }).single('cover'),
     authenticatedMiddleware,
     isAdminMiddleware,
     courseController.create
