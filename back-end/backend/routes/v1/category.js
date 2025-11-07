@@ -11,4 +11,6 @@ router
   .post(authenticatedMiddleware, isAdminMiddleware, controller.create)
   .get(controller.getAll);
 
+router.route('/:id').delete(authenticatedMiddleware, isAdminMiddleware, controller.remove)
+
 module.exports = router;
