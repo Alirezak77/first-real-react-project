@@ -12,6 +12,7 @@ import Users from "./pages/admin-panel/users/Users"
 import AdminCourses from "./pages/admin-panel/adminCourses/AdminCourses"
 import Menus from "./pages/admin-panel/menus/Menus"
 import AdminArticle from "./pages/admin-panel/adminArticle/AdminArticle"
+import AdminCategory from "./pages/admin-panel/admin-category/AdminCategory"
 
 
 const routes =[
@@ -33,7 +34,8 @@ const routes =[
         {path : 'users' , element : <Users/>},
         {path : 'courses' , element : <AdminCourses/>},
         {path : 'menus' , element : <Menus/>},
-        {path : 'article' , element : <AdminArticle/>}
+        {path : 'article' , element : <AdminArticle/>},
+        {path : 'category' , element : <AdminCategory/>}
     ]}
 ]
 
