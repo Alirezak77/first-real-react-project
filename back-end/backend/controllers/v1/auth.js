@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../../models/user");
 const courseUserModel = require("../../models/course-user");
 const notificationsModel = require("../../models/notification");
+const banUserModel = require("../../models/ban-phone");
 const registerValidator = require("../../validators/v1/register");
 
 exports.register = async (req, res) => {
@@ -22,6 +23,13 @@ exports.register = async (req, res) => {
   if (isUserExists) {
     return res.status(409).json({
       message: "username or email is duplicate.",
+    });
+  }
+
+  const isUserBan = await banUserModel.find({ phone });
+  if (isUserBan.length) {
+    return res.status(403).json({
+      message: "this phone number ban!"
     });
   }
 
