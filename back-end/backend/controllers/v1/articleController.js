@@ -4,8 +4,6 @@ const sessionModel = require("../../models/session");
 exports.create = async (req, res) => {
   const { title, description, body, shortName, categoryID } = req.body;
 
-  console.log(req.body);
-
   const article = await articleModel.create({
     title,
     description,
@@ -13,7 +11,7 @@ exports.create = async (req, res) => {
     body,
     creator: req.user._id,
     categoryID,
-    cover: "images/courses/js.jpeg",
+    cover: "/images/blog/3.jpg",
   });
 
   const populatedCourse = await articleModel
@@ -37,4 +35,14 @@ exports.getOne = async (req, res) => {
     .lean();
 
   res.json(article);
+};
+
+exports.remove = async (req, res) => {
+  const deletedArticle = await articleModel.findOneAndRemove({
+    _id: req.params.id,
+  });
+  if (!deletedArticle) {
+    return res.status(404).json({ message: "Article Not Found!" });
+  }
+  return res.json(deletedArticle);
 };

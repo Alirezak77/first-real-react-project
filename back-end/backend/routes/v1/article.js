@@ -8,17 +8,19 @@ const isAdminMiddleware = require('../../middlewares/isAdmin');
 
 const router = express.Router();
 
-router.use(authenticatedMiddleware);
+// router.use(authenticatedMiddleware);
 
 router
   .route('/')
   .post(
     // multer({ storage: multerStorage }).single('cover'),
+    authenticatedMiddleware,
     isAdminMiddleware,
     articleController.create
   )
   .get(articleController.getAll);
 
 router.route('/:shortName').get(articleController.getOne);
+router.route('/:id').delete(articleController.remove);
 
 module.exports = router;
