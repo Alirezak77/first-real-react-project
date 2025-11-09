@@ -48,7 +48,7 @@ exports.getAll = async (req, res) => {
     allCourses.push({
       ...course,
       categoryID: course.categoryID.title,
-      creator: course.creator.name,
+      // creator: course.creator.name,
     });
   });
 
