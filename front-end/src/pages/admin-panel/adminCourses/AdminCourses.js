@@ -10,14 +10,13 @@ import {
   minValidator,
 } from "../../../validators/rules";
 
-
 export default function AdminCourses() {
   const [courses, setCourses] = useState([]);
   const localStorageData = JSON.parse(localStorage.getItem("user"));
   const [categories, setCategories] = useState([]);
-  const [courseCategory, setCourseCategory] = useState("");
-  const [courseStatus, setCourseStatus]=useState('start')
-  const [courseCover , setCourseCover]=useState({})
+  const [courseCategory, setCourseCategory] = useState("-1");
+  const [courseStatus, setCourseStatus] = useState("start");
+  const [courseCover, setCourseCover] = useState({});
   const [formState, onInputHandler] = useForm(
     {
       name: {
@@ -104,36 +103,43 @@ export default function AdminCourses() {
     setCourseCategory(event.target.value);
   };
 
-  const addNewCourse= (event)=>{
-    event.preventDefault()
-    
-    
-    let formData = new FormData()
-    formData.append('name' , formState.inputs.name.value)
-    formData.append('description' , formState.inputs.description.value)
-    formData.append('shortName' , formState.inputs.shortName.value)
-    formData.append('price' , formState.inputs.price.value)
-    formData.append('support' , formState.inputs.support.value)
-    formData.append('categoryID' , courseCategory)
-    formData.append('status' , courseStatus)
-    formData.append('cover' , courseCover)
-console.log(courseCover);
-    fetch(`http://localhost:4000/v1/courses` ,{
-      method:'POST',
-      headers:{'Authorization' : `Bearer ${localStorageData}`},
-      body: formData
-    }).then(res=>{
-      if(res.ok){
-        swal({
-          title:'دوره جدید با موفقیت اضافه شد',
-          icon:'success',
-          buttons:'تایید'
-        }).then(()=>{
-          getAllCourses()
-        })
-      }
-    })
-  }
+  const addNewCourse = (event) => {
+    event.preventDefault();
+
+    let formData = new FormData();
+    formData.append("name", formState.inputs.name.value);
+    formData.append("description", formState.inputs.description.value);
+    formData.append("shortName", formState.inputs.shortName.value);
+    formData.append("price", formState.inputs.price.value);
+    formData.append("support", formState.inputs.support.value);
+    formData.append("categoryID", courseCategory);
+    formData.append("status", courseStatus);
+    formData.append("cover", courseCover);
+
+    if (courseCategory === '-1') {
+      swal({
+        title: "لطفا دسته بندی دوره را وارد کنید",
+        icon: "error",
+        buttons: "تایید",
+      });
+    } else {
+      fetch(`http://localhost:4000/v1/courses`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${localStorageData}` },
+        body: formData,
+      }).then((res) => {
+        if (res.ok) {
+          swal({
+            title: "دوره جدید با موفقیت اضافه شد",
+            icon: "success",
+            buttons: "تایید",
+          }).then(() => {
+            getAllCourses();
+          });
+        }
+      });
+    }
+  };
   return (
     <>
       <div class="container-fluid" id="home-content">
@@ -160,10 +166,10 @@ console.log(courseCover);
               <div class="price input">
                 <label class="input-title">قیمت دوره</label>
                 <InpoutComponent
-                id='price'
-                  element='input'
+                  id="price"
+                  element="input"
                   onInputHandler={onInputHandler}
-                  validations={[minValidator(5)]}
+                  validations={[minValidator(1)]}
                   type="text"
                   placeholder="لطفا قیمت دوره را وارد کنید..."
                 />
@@ -174,10 +180,10 @@ console.log(courseCover);
               <div class="price input">
                 <label class="input-title">توضیحات دوره</label>
                 <InpoutComponent
-                id='description'
-                element='input'
-                onInputHandler={onInputHandler}
-                validations={[minValidator(8)]}
+                  id="description"
+                  element="input"
+                  onInputHandler={onInputHandler}
+                  validations={[minValidator(8)]}
                   type="text"
                   placeholder="لطفا توضیحات دوره را وارد کنید..."
                 />
@@ -188,10 +194,10 @@ console.log(courseCover);
               <div class="price input">
                 <label class="input-title">پشتیبانی دوره</label>
                 <InpoutComponent
-                id='support'
-                element='input'
-                onInputHandler={onInputHandler}
-                validations={[minValidator(5)]}
+                  id="support"
+                  element="input"
+                  onInputHandler={onInputHandler}
+                  validations={[minValidator(5)]}
                   type="text"
                   placeholder="لطفا پشتیبانی را وارد کنید..."
                 />
@@ -202,10 +208,10 @@ console.log(courseCover);
               <div class="price input">
                 <label class="input-title">url دوره</label>
                 <InpoutComponent
-                id='shortName'
-                element='input'
-                onInputHandler={onInputHandler}
-                validations={[minValidator(4)]}
+                  id="shortName"
+                  element="input"
+                  onInputHandler={onInputHandler}
+                  validations={[minValidator(4)]}
                   type="text"
                   placeholder="لطفا url محصول را وارد کنید..."
                 />
@@ -216,6 +222,9 @@ console.log(courseCover);
               <div class="number input">
                 <label class="input-title">دسته‌بندی دوره</label>
                 <select onChange={selectCategory}>
+                  <option value="-1">
+                    لطفا دسته‌بندی مورد نظر را وارد کنید
+                  </option>
                   {categories.map((category) => (
                     <option value={category._id}>{category.title}</option>
                   ))}
@@ -226,10 +235,13 @@ console.log(courseCover);
             <div class="col-6">
               <div class="file">
                 <label class="input-title">عکس محصول</label>
-                <input type="file" id="file" onChange={(event)=>{
-
-                  setCourseCover(event.target.files[0])
-                }}/>
+                <input
+                  type="file"
+                  id="file"
+                  onChange={(event) => {
+                    setCourseCover(event.target.files[0]);
+                  }}
+                />
               </div>
             </div>
             <div class="col-12">
