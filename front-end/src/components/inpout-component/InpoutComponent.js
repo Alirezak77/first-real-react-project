@@ -60,7 +60,7 @@ export default function InpoutComponent(props) {
 
     ): (
         <textarea
-         className={props.className} 
+         className={`${props.className} ${mainInput.isValid ? 'success' : 'error'}`}
          placeholder={props.placeholder}
          onChange={onChangeInout}  
          value={mainInput.value} 
