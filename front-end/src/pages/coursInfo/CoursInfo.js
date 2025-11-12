@@ -6,36 +6,39 @@ import Footer from "../../components/footer/Footer";
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 import CoursBoxDetail from "../../components/cours-box-detail/CoursBoxDetail";
 import CommentBox from "../../components/comment-box/CommentBox";
-import Accordion from 'react-bootstrap/Accordion';
+import Accordion from "react-bootstrap/Accordion";
 import { useParams } from "react-router-dom";
 
 export default function CoursInfo() {
-  const [comments , setComments]= useState()
-  const [session , setSession]= useState()
-  const [courseDetail , setCourseDetail]= useState()  
-  const [updatedAt , setUpdatedAt] = useState('')
-   const [loading, setLoading] = useState(true);
-  const {coursName}= useParams()
-  
-  
-  
+  const [comments, setComments] = useState();
+  const [sessions, setSessions] = useState([]);
+  const [courseDetail, setCourseDetail] = useState();
+  const [updatedAt, setUpdatedAt] = useState("");
+  const [loading, setLoading] = useState(true);
+  const { coursName } = useParams();
+
   useEffect(() => {
-    
-    const localStorageData= JSON.parse(localStorage.getItem('user'))
+    const localStorageData = JSON.parse(localStorage.getItem("user"));
     const fetchData = async () => {
       setLoading(true); // شروع لود
       try {
-        const res = await fetch(`http://localhost:4000/v1/courses/${coursName}`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorageData === null ? null : localStorageData}`}
-        });
+        const res = await fetch(
+          `http://localhost:4000/v1/courses/${coursName}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${
+                localStorageData === null ? null : localStorageData
+              }`,
+            },
+          }
+        );
 
         const coursInfo = await res.json();
         setComments(coursInfo.comments);
-        setSession(coursInfo.session);
+        setSessions(coursInfo.sessions);
         setCourseDetail(coursInfo);
-        setUpdatedAt(coursInfo.updatedAt)
+        setUpdatedAt(coursInfo.updatedAt);
         console.log(coursInfo);
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -48,10 +51,11 @@ export default function CoursInfo() {
   }, [coursName]);
 
   if (loading || !courseDetail) {
-    return <div className="text-center p-4 text-gray-500">در حال بارگذاری...</div>;
+    return (
+      <div className="text-center p-4 text-gray-500">در حال بارگذاری...</div>
+    );
   }
 
-  
   return (
     <>
       <TopBar />
@@ -75,12 +79,8 @@ export default function CoursInfo() {
               <a href="w" class="course-info__link">
                 آموزش برنامه نویسی فرانت اند
               </a>
-              <h1 class="course-info__title">
-                {courseDetail.name}
-              </h1>
-              <p class="course-info__text">
-                {courseDetail.description}
-              </p>
+              <h1 class="course-info__title">{courseDetail.name}</h1>
+              <p class="course-info__text">{courseDetail.description}</p>
               <div class="course-info__social-media">
                 <a href="w" class="course-info__social-media-item">
                   <i class="fab fa-telegram-plane course-info__icon"></i>
@@ -125,7 +125,7 @@ export default function CoursInfo() {
                     />
                     <CoursBoxDetail
                       title={"آخرین بروزرسانی:"}
-                      text={updatedAt.slice(0 , 10)}
+                      text={updatedAt.slice(0, 10)}
                       icon={"calendar-alt"}
                     />
                     <CoursBoxDetail
@@ -243,52 +243,35 @@ export default function CoursInfo() {
                   </div>
 
                   <div class="introduction__topic">
-
                     <Accordion defaultActiveKey="0">
-                      <Accordion.Item eventKey="0">
-                        <Accordion.Header>معرفی دوره</Accordion.Header>
-                        <Accordion.Body className="accordion-body">
-                          <div class="accordion-body introduction__accordion-body">
-                            <div class="introduction__accordion-right">
-                              <span class="introduction__accordion-count">
-                                1
+                      <Accordion.Item eventKey="0" className="accordion">
+                        <Accordion.Header>جلسات دوره</Accordion.Header>
+                        {sessions.map((session, index) => (
+                          <Accordion.Body
+                            key={session._id}
+                            className="introduction__accordion-body"
+                          >
+                            <div className="introduction__accordion-right">
+                              <span className="introduction__accordion-count">
+                                {index + 1}
                               </span>
-                              <i class="fab fa-youtube introduction__accordion-icon"></i>
-                              <a href="w" class="introduction__accordion-link">
-                                معرفی دوره + چرا یادگیری کتابخانه ها ضروری است؟
+                              <i className="fab fa-youtube introduction__accordion-icon"></i>
+                              <a
+                                href="w"
+                                className="introduction__accordion-link"
+                              >
+                                {session.title}
                               </a>
                             </div>
-                            <div class="introduction__accordion-left">
-                              <span class="introduction__accordion-time">
-                                18:34
+                            <div className="introduction__accordion-left">
+                              <span className="introduction__accordion-time">
+                                {session.time}
                               </span>
                             </div>
-                          </div>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item eventKey="1">
-                        <Accordion.Header className="">مقدمات</Accordion.Header>
-                        <Accordion.Body className="accordion-body">
-                          <div class="accordion-body introduction__accordion-body">
-                            <div class="introduction__accordion-right">
-                              <span class="introduction__accordion-count">
-                                1
-                              </span>
-                              <i class="fab fa-youtube introduction__accordion-icon"></i>
-                              <a href="w" class="introduction__accordion-link">
-                               چرا یادگیری کتابخانه ها ضروری است؟
-                              </a>
-                            </div>
-                            <div class="introduction__accordion-left">
-                              <span class="introduction__accordion-time">
-                                18:34
-                              </span>
-                            </div>
-                          </div>
-                        </Accordion.Body>
+                          </Accordion.Body>
+                        ))}
                       </Accordion.Item>
                     </Accordion>
-
                   </div>
                 </div>
 
@@ -322,7 +305,7 @@ export default function CoursInfo() {
                     زمینه وب فعالیت داشته باشم.و..
                   </p>
                 </div>
-                
+
                 {/* Finish Teacher Details */}
 
                 {/* start left colom */}
