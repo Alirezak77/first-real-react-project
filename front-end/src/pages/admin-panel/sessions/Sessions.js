@@ -55,15 +55,41 @@ export default function Sessions() {
       .then((result) => {
         setCourses(result);
       });
-      getAllSessions()
+    getAllSessions();
   }, []);
 
+  //geting all sessions
   const getAllSessions = () => {
     fetch(`http://localhost:4000/v1/courses/sessions`)
       .then((res) => res.json())
       .then((result) => setAllSessions(result));
-      console.log(allSessions);
-      
+    console.log(allSessions);
+  };
+
+  //remove session
+  const removeSession = (sessionID) => {
+    swal({
+      title: "آیا از حذف جلسه اطمینان دارید؟",
+      icon: "warning",
+      buttons: ["نه", "بله"],
+    }).then((result) => {
+      if (result) {
+        fetch(`http://localhost:4000/v1/courses/sessions/${sessionID}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${localStorageData}` },
+        }).then((res) => {
+          if (res.ok) {
+            swal({
+              title: "جلسه مورد نظر با موفقیت حذف شد",
+              icon: "success",
+              buttons: "تایید",
+            }).then(() => {
+              getAllSessions();
+            });
+          }
+        });
+      }
+    });
   };
   return (
     <>
@@ -164,12 +190,11 @@ export default function Sessions() {
                   <td>{sessions.time}</td>
                   <td>{sessions.course.name}</td>
 
-                  
                   <td>
                     <button
                       type="button"
                       class="btn btn-danger delete-btn"
-                      
+                      onClick={() => removeSession(sessions._id)}
                     >
                       حذف
                     </button>
