@@ -5,7 +5,7 @@ const courseController = require("../../controllers/v1/course");
 const multerStorage = require("../../util/multerStorage");
 const authenticatedMiddleware = require("../../middlewares/authenticated");
 const isAdminMiddleware = require("../../middlewares/isAdmin");
-const loginUser = require('./../../middlewares/loginUser')
+const loginUser = require("./../../middlewares/loginUser");
 
 const router = express.Router();
 
@@ -14,27 +14,46 @@ const router = express.Router();
 router
   .route("/")
   .post(
-    multer({ storage: multerStorage, limits: {fileSize: 1000000000} }).single('cover'),
+    multer({ storage: multerStorage, limits: { fileSize: 1000000000 } }).single(
+      "cover"
+    ),
     authenticatedMiddleware,
     isAdminMiddleware,
     courseController.create
   )
   .get(courseController.getAll);
 
+router.route("/:id").delete(courseController.remove);
+
 router
-  .route("/:id").delete(courseController.remove)
-
-  router
   .route("/:id/sessions")
-  .post(isAdminMiddleware, courseController.createSession);
+  .post(
+    multer({ storage: multerStorage, limits: { fileSize: 1000000000 } }).single(
+      "video"
+    ),
+    authenticatedMiddleware,
+    isAdminMiddleware,
+    courseController.createSession
+  );
 
-router.route('/presell').get(courseController.getAll)
-router.route('/popular').get(courseController.getAll)
+router.route("/sessions").get(courseController.getAllSessions);
+router
+  .route("/sessions/:id")
+  .delete(
+    authenticatedMiddleware,
+    isAdminMiddleware,
+    courseController.removeSession
+  );
+
+router.route("/presell").get(courseController.getAll);
+router.route("/popular").get(courseController.getAll);
 
 router.route("/:shortName").post(loginUser, courseController.getOne);
 
 router.route("/:id/register").post(courseController.register);
 
-router.route('/category/:categoryName').get(courseController.getCategoryCourses)
+router
+  .route("/category/:categoryName")
+  .get(courseController.getCategoryCourses);
 
 module.exports = router;

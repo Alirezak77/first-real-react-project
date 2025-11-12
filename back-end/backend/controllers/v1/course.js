@@ -5,15 +5,8 @@ const categoryModel = require("../../models/category");
 const courseUserModel = require("../../models/course-user");
 
 exports.create = async (req, res) => {
-  const {
-    name,
-    description,
-    shortName,
-    categoryID,
-    price,
-    support,
-    status,
-  } = req.body;
+  const { name, description, shortName, categoryID, price, support, status } =
+    req.body;
 
   const course = await courseModel.create({
     name,
@@ -25,7 +18,7 @@ exports.create = async (req, res) => {
     isComplete: 0,
     status,
     support,
-    cover: req.file.filename
+    cover: req.file.filename,
   });
 
   const populatedCourse = await courseModel
@@ -99,9 +92,18 @@ exports.createSession = async (req, res) => {
     title,
     time,
     course: req.params.id,
+    video: req.file.filename,
   });
 
   return res.status(201).json(session);
+};
+
+exports.getAllSessions = async (req, res) => {
+  const allSessions = await sessionModel
+    .find()
+    .populate("course", "name")
+    .lean();
+  res.json(allSessions);
 };
 
 exports.register = async (req, res) => {
@@ -144,4 +146,14 @@ exports.remove = async (req, res) => {
     return res.status(404).json({ message: "Course Not Found!" });
   }
   return res.json(deletedCourse);
+};
+
+exports.removeSession = async (req, res) => {
+  const deletedSession = await sessionModel.findOneAndRemove({
+    _id: req.params.id,
+  });
+  if (!deletedSession) {
+    return res.status(404).json({ message: "Session Not Found!" });
+  }
+  return res.json(deletedSession);
 };
