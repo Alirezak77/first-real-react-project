@@ -80,6 +80,34 @@ export default function AdminArticle() {
       }
     });
   };
+
+  const creatNewArticle = (event)=>{
+    event.preventDefault()
+    let formData= new FormData()
+    formData.append('title' , formState.inputs.title.value)
+    formData.append("description", formState.inputs.description.value);
+    formData.append("shortName", formState.inputs.shortName.value);
+    formData.append("categoryID", articleCategory);
+    formData.append("body" , articleBody)
+    formData.append("cover", articleCover);
+
+    fetch(`http://localhost:4000/v1/articles`,{
+      method:'POST',
+      headers:{Authorization : `Bearer ${localStorageData}`},
+      body: formData
+    }).then(res=>{
+      if(res.ok){
+        swal({
+          title:'مقاله با موفقیت اضافه شد',
+          icon:'success',
+          buttons:'تایید'
+        }).then(()=>{
+          getAllArticle()
+        })
+      }
+    })
+
+  }
   return (
     <>
       <div class="container-fluid" id="home-content">
@@ -123,7 +151,6 @@ export default function AdminArticle() {
                 <label class="input-title" style={{ display: "block" }}>
                   چکیده
                 </label>
-                {/* <textarea style={{ width: "100%", height: "200px" }}></textarea> */}
 
                 <InpoutComponent
                   element="textarea"
@@ -178,7 +205,7 @@ export default function AdminArticle() {
             <div class="col-12">
               <div class="bottom-form">
                 <div class="submit-btn">
-                  <input type="submit" value="افزودن" />
+                  <input type="submit" value="افزودن" onClick={creatNewArticle} />
                 </div>
               </div>
             </div>

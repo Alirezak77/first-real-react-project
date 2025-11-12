@@ -11,7 +11,11 @@ export default function ArticleBox({title , description , cover , shortName}) {
         <div className="article-card__header">
           <Link to={`/article-info/${shortName}`} className="article-card__link-img">
             <img
-              src={`/${cover}`}
+              src={
+              cover.startsWith("/images/")
+                ? cover // عکس‌های قدیمی و پیش‌فرض
+                : `http://localhost:4000/courses/covers/${cover}` // عکس‌های آپلودی
+            }
               className="article-card__img"
               alt="Article Cover"
             />
