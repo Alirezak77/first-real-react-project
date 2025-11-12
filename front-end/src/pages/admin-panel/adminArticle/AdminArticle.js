@@ -4,12 +4,14 @@ import swal from "sweetalert";
 import InpoutComponent from "../../../components/inpout-component/InpoutComponent";
 import { useForm } from "../../../hooks/useForm";
 import { minValidator } from "../../../validators/rules";
+import Editor from "../../../components/editor/Editor";
 
 export default function AdminArticle() {
   const [allArticle, setAllArticle] = useState([]);
   const [categories, setCategories] = useState([]);
   const [articleCategory, setArticleCategory] = useState("-1");
   const [articleCover, setArticleCover] = useState({});
+  const [articleBody, setArticleBody]=useState('')
   const localStorageData = JSON.parse(localStorage.getItem("user"));
   const [formState, onInputHandler] = useForm(
     {
@@ -131,6 +133,15 @@ export default function AdminArticle() {
                   validations={[minValidator(5)]}
                   className="article-textarea"
                 />
+                <span class="error-message text-danger"></span>
+              </div>
+            </div>
+             <div class="col-12">
+              <div class="name input">
+                <label class="input-title" style={{ display: "block" }}>
+                  چکیده
+                </label>
+                <Editor value={articleBody} setValue={setArticleBody}/>
                 <span class="error-message text-danger"></span>
               </div>
             </div>
