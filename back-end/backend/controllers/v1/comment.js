@@ -49,6 +49,42 @@ exports.remove = async (req, res) => {
   }
 };
 
+// تایید یا رد کامنت
+exports.updateApproval = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { isApproved } = req.body; // true/false از فرانت‌اند
+
+    const comment = await commentModel.findById(id);
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
+
+    comment.isApproved = isApproved;
+    await comment.save();
+
+    res.status(200).json({
+      message: `Comment ${isApproved ? "approved" : "rejected"} successfully`,
+      comment,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+exports.getApprovedComments = async (req, res) => {
+  try {
+    const comments = await commentModel
+      .find({ isApproved: true })   // فقط کامنت‌های تایید شده
+      .populate("creator", "name")
+      .populate("course", "shortName title")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(comments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 
 // exports.getAll = async (req, res) => {
 //   const courses = await courseModel.find().populate("creator", "-password");

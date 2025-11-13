@@ -14,6 +14,8 @@ const schema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
+    isApproved: { type: Boolean, default: false } // تایید یا رد
+
   },
   { timestamps: true }
 );

@@ -11,8 +11,10 @@ router
   .post(authenticatedMiddleware, commentController.create)
   .get(commentController.getAll);
 
-  
+router.get("/approved", commentController.getApprovedComments);
 router.delete("/:id",authenticatedMiddleware,isAdminMiddleware, commentController.remove);
+
+router.put("/:id",authenticatedMiddleware, isAdminMiddleware, commentController.updateApproval);
 
   module.exports = router;
   //   .get(commentController.getAll);
