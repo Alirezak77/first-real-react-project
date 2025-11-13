@@ -45,6 +45,14 @@ router
     courseController.removeSession
   );
 
+router
+  .route("/:shortName/:sessionID")
+  .get(
+    authenticatedMiddleware,
+    isAdminMiddleware,
+    courseController.getSessionInfo
+  );
+
 router.route("/presell").get(courseController.getAll);
 router.route("/popular").get(courseController.getAll);
 

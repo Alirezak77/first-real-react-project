@@ -163,9 +163,15 @@ exports.getSessionInfo = async (req, res) => {
   const course = await courseModel
     .findOne({ shortName: req.params.shortName })
     .lean();
+
   const session = await sessionModel.findOne({
     course: course._id,
     _id: req.params.sessionID,
   });
-  res.json(session);
+
+  const sessions = await sessionModel.find({ course: course._id });
+
+  console.log(sessions);
+
+  res.json({ sessions, session });
 };
