@@ -8,6 +8,7 @@ import CoursBoxDetail from "../../components/cours-box-detail/CoursBoxDetail";
 import CommentBox from "../../components/comment-box/CommentBox";
 import Accordion from "react-bootstrap/Accordion";
 import { Link, useParams } from "react-router-dom";
+import swal from "sweetalert";
 
 export default function CoursInfo() {
   const [comments, setComments] = useState();
@@ -16,9 +17,9 @@ export default function CoursInfo() {
   const [updatedAt, setUpdatedAt] = useState("");
   const [loading, setLoading] = useState(true);
   const { coursName } = useParams();
+  const localStorageData = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    const localStorageData = JSON.parse(localStorage.getItem("user"));
     const fetchData = async () => {
       setLoading(true); // شروع لود
       try {
@@ -55,6 +56,30 @@ export default function CoursInfo() {
     return (
       <div className="text-center p-4 text-gray-500">در حال بارگذاری...</div>
     );
+  }
+
+  const submitComment = (commentBody)=>{
+    fetch(`http://localhost:4000/v1/comments`,{
+      method:'POST',
+      headers:{
+        Authorization : `Bearer ${localStorageData}`,
+        'Content-Type' : 'application/json'
+      
+      },
+      body:JSON.stringify({
+        body : commentBody,
+        courseShortName: coursName
+      })
+    }).then(res=>{
+      if(res.ok){
+        swal({
+          title:'کامنت با موفقیت ارسال شد',
+          icon:'success',
+          buttons:'تایید'
+        })
+      }
+    })
+
   }
 
   return (
@@ -332,6 +357,7 @@ export default function CoursInfo() {
                     زمینه وب فعالیت داشته باشم.و..
                   </p>
                 </div>
+                <CommentBox comments={comments} submitComment={submitComment}/>
 
                 {/* Finish Teacher Details */}
 
