@@ -4,59 +4,52 @@ import swal from "sweetalert";
 
 export default function Comments() {
   const [allComments, setAllComments] = useState([]);
-  const localStorageData = JSON.parse(localStorage.getItem('user'))
+  const localStorageData = JSON.parse(localStorage.getItem("user"));
 
-
-
-
-  function getAllComments(){
-      fetch(`http://localhost:4000/v1/comments`)
-        .then((res) => res.json())
-        .then((data) => {
-          setAllComments(data);
-        });
-
+  function getAllComments() {
+    fetch(`http://localhost:4000/v1/comments`)
+      .then((res) => res.json())
+      .then((data) => {
+        setAllComments(data);
+      });
   }
   useEffect(() => {
-    getAllComments()
+    getAllComments();
   }, []);
 
-
-  const showComment= (commentBody)=>{
+  const showComment = (commentBody) => {
     swal({
-        title:commentBody,
-        buttons:'تایید'
+      title: commentBody,
+      buttons: "تایید",
+    });
+  };
 
-    })
-  }
-
-  const deleteComment=(commentID)=>{
+  const deleteComment = (commentID) => {
     swal({
-        title:"آیا از حذف کامنت اطمینان دارید؟",
-        icon:'warning',
-        buttons:["خیر","بله"]
-    }).then(result=>{
-        if(result){
-            fetch(`http://localhost:4000/v1/comments/${commentID}`,{
-                method:'DELETE',
-                headers: {Authorization: `Bearer ${localStorageData}`}
-            }).then(res=>{
-                if(res.ok){
-                    swal({
-                        title:'کامنت با موفقیت حذف شد',
-                        icon:'success',
-                        buttons:'تایید'
-                    }).then(()=>{
-                        getAllComments()
-                    })
-                }
-            })
-        }
-    })
-  }
+      title: "آیا از حذف کامنت اطمینان دارید؟",
+      icon: "warning",
+      buttons: ["خیر", "بله"],
+    }).then((result) => {
+      if (result) {
+        fetch(`http://localhost:4000/v1/comments/${commentID}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${localStorageData}` },
+        }).then((res) => {
+          if (res.ok) {
+            swal({
+              title: "کامنت با موفقیت حذف شد",
+              icon: "success",
+              buttons: "تایید",
+            }).then(() => {
+              getAllComments();
+            });
+          }
+        });
+      }
+    });
+  };
 
-
-    const banUser = (userID) => {
+  const banUser = (userID) => {
     swal({
       title: "آیا از مسدود کردن کاربر اطمینان دارید؟",
       icon: "warning",
@@ -78,6 +71,37 @@ export default function Comments() {
       }
     });
   };
+
+  const toggleApproval = (commentID, currentStatus) => {
+    // تغییر وضعیت به مخالف وضعیت فعلی
+    swal({
+      title: "آیا از تایید/رد کامنت اطمینان دارید؟",
+      icon: "warning",
+      buttons: ["خیر", "بله"],
+    }).then((result) => {
+      if (result) {
+        fetch(`http://localhost:4000/v1/comments/${commentID}`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorageData}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ isApproved: !currentStatus }),
+        }).then((res) => {
+          if (res.ok) {
+            swal({
+              title: "عملیات با موفقیت انجام شد",
+              icon: "success",
+              buttons: "تایید",
+            }).then(() => {
+              getAllComments();
+            });
+          }
+        });
+      }
+    });
+  };
+
   return (
     <>
       <DataTable title={"منو ها"}>
@@ -90,9 +114,10 @@ export default function Comments() {
               <th>مشاهده</th>
 
               
-              
+
               <th>حذف</th>
               <th>بن</th>
+              <th>تایید/رد</th>
             </tr>
           </thead>
           <tbody>
@@ -103,19 +128,50 @@ export default function Comments() {
                   <td>{comment.creator.name}</td>
                   <td>{comment.course.shortName}</td>
                   <td>
-                    <button type="button" class="btn btn-primary edit-btn" onClick={()=>{showComment(comment.body)}}>
+                    <button
+                      type="button"
+                      class="btn btn-primary edit-btn"
+                      onClick={() => {
+                        showComment(comment.body);
+                      }}
+                    >
                       مشاهده
                     </button>
                   </td>
 
                   <td>
-                    <button type="button" class="btn btn-danger delete-btn" onClick={()=>{deleteComment(comment._id)}}>
+                    <button
+                      type="button"
+                      class="btn btn-danger delete-btn"
+                      onClick={() => {
+                        deleteComment(comment._id);
+                      }}
+                    >
                       حذف
                     </button>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-danger edit-btn" onClick={()=>{banUser(comment.creator._id)}}>
+                    <button
+                      type="button"
+                      class="btn btn-danger edit-btn"
+                      onClick={() => {
+                        banUser(comment.creator._id);
+                      }}
+                    >
                       مسدود کردن
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className={`btn ${
+                        comment.isApproved ? "btn-danger" : "btn-success"
+                      }`}
+                      onClick={() =>
+                        toggleApproval(comment._id, comment.isApproved)
+                      }
+                    >
+                      {comment.isApproved ? "رد" : "تأیید"}
                     </button>
                   </td>
                 </tr>

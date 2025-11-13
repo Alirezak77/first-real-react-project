@@ -36,11 +36,18 @@ export default function CoursInfo() {
         );
 
         const coursInfo = await res.json();
-        setComments(coursInfo.comments);
         setSessions(coursInfo.sessions);
         setCourseDetail(coursInfo);
         setUpdatedAt(coursInfo.updatedAt);
         console.log(coursInfo);
+
+        const commentRes = await fetch(
+          `http://localhost:4000/v1/comments/approved?course=${coursInfo.shortName}`
+        );
+        const approvedComments = await commentRes.json();
+
+        // نمایش فقط کامنت‌های تأییدشده
+        setComments(approvedComments);
       } catch (error) {
         console.error("Error fetching course data:", error);
       } finally {
@@ -58,29 +65,27 @@ export default function CoursInfo() {
     );
   }
 
-  const submitComment = (commentBody)=>{
-    fetch(`http://localhost:4000/v1/comments`,{
-      method:'POST',
-      headers:{
-        Authorization : `Bearer ${localStorageData}`,
-        'Content-Type' : 'application/json'
-      
+  const submitComment = (commentBody) => {
+    fetch(`http://localhost:4000/v1/comments`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorageData}`,
+        "Content-Type": "application/json",
       },
-      body:JSON.stringify({
-        body : commentBody,
-        courseShortName: coursName
-      })
-    }).then(res=>{
-      if(res.ok){
+      body: JSON.stringify({
+        body: commentBody,
+        courseShortName: coursName,
+      }),
+    }).then((res) => {
+      if (res.ok) {
         swal({
-          title:'کامنت با موفقیت ارسال شد',
-          icon:'success',
-          buttons:'تایید'
-        })
+          title: "کامنت با موفقیت ارسال شد",
+          icon: "success",
+          buttons: "تایید",
+        });
       }
-    })
-
-  }
+    });
+  };
 
   return (
     <>
@@ -300,14 +305,14 @@ export default function CoursInfo() {
                               </>
                             ) : (
                               <>
-                              <div className="introduction__accordion-right">
+                                <div className="introduction__accordion-right">
                                   <span className="introduction__accordion-count">
                                     {index + 1}
                                   </span>
                                   <i className="fab fa-youtube introduction__accordion-icon"></i>
                                   <span
-                                    // href="w"
-                                    // className="introduction__accordion-link"
+                                  // href="w"
+                                  // className="introduction__accordion-link"
                                   >
                                     {session.title}
                                   </span>
@@ -316,7 +321,7 @@ export default function CoursInfo() {
                                   <span className="introduction__accordion-time">
                                     {session.time}
                                   </span>
-                                  <i className="fa fa-lock lock"/>
+                                  <i className="fa fa-lock lock" />
                                 </div>
                               </>
                             )}
@@ -357,7 +362,7 @@ export default function CoursInfo() {
                     زمینه وب فعالیت داشته باشم.و..
                   </p>
                 </div>
-                <CommentBox comments={comments} submitComment={submitComment}/>
+                <CommentBox comments={comments} submitComment={submitComment} />
 
                 {/* Finish Teacher Details */}
 
