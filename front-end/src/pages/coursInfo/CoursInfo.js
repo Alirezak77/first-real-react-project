@@ -7,7 +7,7 @@ import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 import CoursBoxDetail from "../../components/cours-box-detail/CoursBoxDetail";
 import CommentBox from "../../components/comment-box/CommentBox";
 import Accordion from "react-bootstrap/Accordion";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function CoursInfo() {
   const [comments, setComments] = useState();
@@ -260,12 +260,12 @@ export default function CoursInfo() {
                                     {index + 1}
                                   </span>
                                   <i className="fab fa-youtube introduction__accordion-icon"></i>
-                                  <a
-                                    href="w"
+                                  <Link
+                                    to={`/${coursName}/${session._id}`}
                                     className="introduction__accordion-link"
                                   >
                                     {session.title}
-                                  </a>
+                                  </Link>
                                 </div>
                                 <div className="introduction__accordion-left">
                                   <span className="introduction__accordion-time">

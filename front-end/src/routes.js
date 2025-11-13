@@ -14,6 +14,7 @@ import Menus from "./pages/admin-panel/menus/Menus"
 import AdminArticle from "./pages/admin-panel/adminArticle/AdminArticle"
 import AdminCategory from "./pages/admin-panel/admin-category/AdminCategory"
 import Sessions from "./pages/admin-panel/sessions/Sessions"
+import Session from "./pages/session/Session"
 
 
 const routes =[
@@ -28,6 +29,7 @@ const routes =[
     {path : '/register' , element: <Register/>},
     {path : '/article/:page' , element: <Article/>},
     {path : '/search/:value' , element : <Search/>},
+    {path : '/:coursName/:sessionID' , element:<Session/>},
 
 
     //Paths for the admin panel
