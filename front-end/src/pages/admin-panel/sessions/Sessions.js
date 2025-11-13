@@ -10,6 +10,7 @@ export default function Sessions() {
   const [sessionCours, setSessionCourse] = useState("-1");
   const [sessionVideo, setSessionVideo] = useState({});
   const [allSessions, setAllSessions] = useState([]);
+  const [isFreeSession, setIsFreeSession]=useState(0)
   const localStorageData = JSON.parse(localStorage.getItem("user"));
   const [formState, onInputHandler] = useForm(
     {
@@ -32,6 +33,7 @@ export default function Sessions() {
     formData.append("title", formState.inputs.title.value);
     formData.append("time", formState.inputs.time.value);
     formData.append("video", sessionVideo);
+    formData.append('free' , isFreeSession)
 
     fetch(`http://localhost:4000/v1/courses/${sessionCours}/sessions`, {
       method: "POST",
@@ -156,6 +158,43 @@ export default function Sessions() {
                   onChange={(event) => setSessionVideo(event.target.files[0])}
                 />
                 <span class="error-message text-danger"></span>
+              </div>
+            </div>
+             <div class="col-12">
+              <div class="bottom-form">
+                <div class="condition">
+                  <label class="input-title">وضعیت جلسه</label>
+                  <div class="radios">
+                    <div class="available">
+                      <label>
+                        <span>رایگان</span>
+                        <input
+                          type="radio"
+                          value="1"
+                          name="condition"
+                          checked
+                          onInput={(event) =>
+                            setIsFreeSession(event.target.value)
+                          }
+                        />
+                      </label>
+                    </div>
+                    <div class="unavailable">
+                      <label>
+                        <span>غیر رایگان</span>
+                        <input
+                          type="radio"
+                          value='0'
+                          name="condition"
+                          checked
+                          onInput={(event) =>
+                            setIsFreeSession(event.target.value)
+                          }
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
