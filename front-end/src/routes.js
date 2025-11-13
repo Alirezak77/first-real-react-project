@@ -15,6 +15,7 @@ import AdminArticle from "./pages/admin-panel/adminArticle/AdminArticle"
 import AdminCategory from "./pages/admin-panel/admin-category/AdminCategory"
 import Sessions from "./pages/admin-panel/sessions/Sessions"
 import Session from "./pages/session/Session"
+import Comments from "./pages/admin-panel/comments/Comments"
 
 
 const routes =[
@@ -39,7 +40,8 @@ const routes =[
         {path : 'menus' , element : <Menus/>},
         {path : 'article' , element : <AdminArticle/>},
         {path : 'category' , element : <AdminCategory/>},
-        {path : 'sessions' , element : <Sessions/>}
+        {path : 'sessions' , element : <Sessions/>},
+        {path : 'comments' , element : <Comments/>}
     ]}
 ]
 
