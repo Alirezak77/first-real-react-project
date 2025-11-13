@@ -54,6 +54,30 @@ export default function Comments() {
         }
     })
   }
+
+
+    const banUser = (userID) => {
+    swal({
+      title: "آیا از مسدود کردن کاربر اطمینان دارید؟",
+      icon: "warning",
+      buttons: ["خیر", "بله"],
+    }).then((result) => {
+      if (result) {
+        fetch(`http://localhost:4000/v1/users/ban/${userID}`, {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${localStorageData}` },
+        }).then((res) => {
+          if (res.ok) {
+            swal({
+              title: "کاربر با موفقیت مسدود شد",
+              icon: "success",
+              buttons: "تایید",
+            });
+          }
+        });
+      }
+    });
+  };
   return (
     <>
       <DataTable title={"منو ها"}>
@@ -65,8 +89,8 @@ export default function Comments() {
               <th>دوره</th>
               <th>مشاهده</th>
 
-              <th>پاسخ</th>
-              <th>ویرایش</th>
+              
+              
               <th>حذف</th>
               <th>بن</th>
             </tr>
@@ -83,25 +107,15 @@ export default function Comments() {
                       مشاهده
                     </button>
                   </td>
-                  <td>
-                    <button type="button" class="btn btn-primary edit-btn" >
-                      پاسخ
-                    </button>
-                  </td>
 
-                  <td>
-                    <button type="button" class="btn btn-primary edit-btn">
-                      ویرایش
-                    </button>
-                  </td>
                   <td>
                     <button type="button" class="btn btn-danger delete-btn" onClick={()=>{deleteComment(comment._id)}}>
                       حذف
                     </button>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-danger edit-btn">
-                      بن
+                    <button type="button" class="btn btn-danger edit-btn" onClick={()=>{banUser(comment.creator._id)}}>
+                      مسدود کردن
                     </button>
                   </td>
                 </tr>
