@@ -48,6 +48,7 @@ export default function CoursInfo() {
     };
 
     fetchData();
+    console.log(courseDetail);
   }, [coursName]);
 
   if (loading || !courseDetail) {
@@ -251,23 +252,49 @@ export default function CoursInfo() {
                             key={session._id}
                             className="introduction__accordion-body"
                           >
-                            <div className="introduction__accordion-right">
-                              <span className="introduction__accordion-count">
-                                {index + 1}
-                              </span>
-                              <i className="fab fa-youtube introduction__accordion-icon"></i>
-                              <a
-                                href="w"
-                                className="introduction__accordion-link"
-                              >
-                                {session.title}
-                              </a>
-                            </div>
-                            <div className="introduction__accordion-left">
-                              <span className="introduction__accordion-time">
-                                {session.time}
-                              </span>
-                            </div>
+                            {session.free === 1 ||
+                            courseDetail.isUserRegisteredToThisCourse ? (
+                              <>
+                                <div className="introduction__accordion-right">
+                                  <span className="introduction__accordion-count">
+                                    {index + 1}
+                                  </span>
+                                  <i className="fab fa-youtube introduction__accordion-icon"></i>
+                                  <a
+                                    href="w"
+                                    className="introduction__accordion-link"
+                                  >
+                                    {session.title}
+                                  </a>
+                                </div>
+                                <div className="introduction__accordion-left">
+                                  <span className="introduction__accordion-time">
+                                    {session.time}
+                                  </span>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                              <div className="introduction__accordion-right">
+                                  <span className="introduction__accordion-count">
+                                    {index + 1}
+                                  </span>
+                                  <i className="fab fa-youtube introduction__accordion-icon"></i>
+                                  <span
+                                    // href="w"
+                                    // className="introduction__accordion-link"
+                                  >
+                                    {session.title}
+                                  </span>
+                                </div>
+                                <div className="introduction__accordion-left">
+                                  <span className="introduction__accordion-time">
+                                    {session.time}
+                                  </span>
+                                  <i className="fa fa-lock lock"/>
+                                </div>
+                              </>
+                            )}
                           </Accordion.Body>
                         ))}
                       </Accordion.Item>
