@@ -3,10 +3,12 @@ import InpoutComponent from "../../../components/inpout-component/InpoutComponen
 import { useForm } from "../../../hooks/useForm";
 import { requiredValidator } from "../../../validators/rules";
 import swal from "sweetalert";
+import DataTable from "../../../components/admin-components/DataTable/DataTable";
 
 export default function Discount() {
   const [allCourses, setAllCourses] = useState([]);
   const [courseID, setCourseID] = useState("-1");
+  const [allDiscounts, setAllDiscounts] = useState([]);
   const localStorageData = JSON.parse(localStorage.getItem("user"));
   const [formState, onInputHandler] = useForm(
     {
@@ -33,7 +35,19 @@ export default function Discount() {
       .then((data) => {
         setAllCourses(data);
       });
+    getAllDiscounts();
   }, []);
+
+  function getAllDiscounts() {
+    fetch(`http://localhost:4000/v1/discounts`, {
+      headers: { Authorization: `Bearer ${localStorageData}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setAllDiscounts(data);
+      });
+  }
 
   //creat new discount code
   const addNewDiscountCode = (event) => {
@@ -146,6 +160,41 @@ export default function Discount() {
           </form>
         </div>
       </div>
+      <DataTable title={"تخفیف ها"}>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>شناسه</th>
+              <th>کد تخفیف</th>
+              <th>درصد تخفیف</th>
+              <th>دوره</th>
+              <th>حداکثر استفاده</th>
+              <th>دفعات استفاده</th>
+
+              <th>حذف</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allDiscounts.map((discount, index) => {
+              return (
+                <tr>
+                  <td>{index+1}</td>
+                  <td>{discount.code}</td>
+                  <td>{discount.percent}</td>
+                  <td>{discount.course.name}</td>
+                  <td>{discount.maxUsage}</td>
+                  <td>{discount.usedCount}</td>
+                  <td>
+                    <button type="button" class="btn btn-danger delete-btn">
+                      حذف
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </DataTable>
     </>
   );
 }
