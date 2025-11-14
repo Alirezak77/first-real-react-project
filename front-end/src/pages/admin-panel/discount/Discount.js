@@ -1,23 +1,67 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import InpoutComponent from "../../../components/inpout-component/InpoutComponent";
 import { useForm } from "../../../hooks/useForm";
-import { minValidator } from "../../../validators/rules";
+import { requiredValidator } from "../../../validators/rules";
+import swal from "sweetalert";
 
 export default function Discount() {
-  const [formState, onInputHandler] = useForm({
-    code:{
-        value:'',
-        isValid:false
+  const [allCourses, setAllCourses] = useState([]);
+  const [courseID, setCourseID] = useState("-1");
+  const localStorageData = JSON.parse(localStorage.getItem("user"));
+  const [formState, onInputHandler] = useForm(
+    {
+      code: {
+        value: "",
+        isValid: false,
+      },
+      percent: {
+        value: "",
+        isValid: false,
+      },
+      maxUsage: {
+        value: "",
+        isValid: false,
+      },
     },
-    persent:{
-        value:'',
-        isValid:false
-    },
-    max:{
-        value:'',
-        isValid:false
-    },
-  }, false);
+    false
+  );
+
+  //get all courses
+  useEffect(() => {
+    fetch(`http://localhost:4000/v1/courses`)
+      .then((res) => res.json())
+      .then((data) => {
+        setAllCourses(data);
+      });
+  }, []);
+
+  //creat new discount code
+  const addNewDiscountCode = (event) => {
+    event.preventDefault();
+    const discountCodeInfo = {
+      code: formState.inputs.code.value,
+      percent: formState.inputs.percent.value,
+      maxUsage: formState.inputs.maxUsage.value,
+      courseId: courseID,
+    };
+    fetch(`http://localhost:4000/v1/discounts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorageData}`,
+      },
+      body: JSON.stringify(discountCodeInfo),
+    }).then((res) => {
+      if (res.ok) {
+        swal({
+          title: "کد تخفیف با موفقیت اضافه شد",
+          icon: "success",
+          buttons: "تایید",
+        });
+      }
+    });
+  };
+
   return (
     <>
       <div class="container-fluid" id="home-content">
@@ -34,7 +78,7 @@ export default function Discount() {
                   onInputHandler={onInputHandler}
                   type="text"
                   id="code"
-                  validations={[minValidator(5)]}
+                  validations={[requiredValidator]}
                   placeholder="لطفا کد تخفیف را وارد کنید..."
                 />
                 <span class="error-message text-danger"></span>
@@ -47,8 +91,8 @@ export default function Discount() {
                   element="input"
                   onInputHandler={onInputHandler}
                   type="text"
-                  id="persent"
-                  validations={[minValidator(5)]}
+                  id="percent"
+                  validations={[requiredValidator]}
                   placeholder="لطفا درصد تخفیف را وارد کنید..."
                 />
                 <span class="error-message text-danger"></span>
@@ -61,8 +105,8 @@ export default function Discount() {
                   element="input"
                   onInputHandler={onInputHandler}
                   type="text"
-                  id="max"
-                  validations={[minValidator(5)]}
+                  id="maxUsage"
+                  validations={[requiredValidator]}
                   placeholder="لطفا حداکثر استفاده از کد تخفیف را وارد کنید..."
                 />
                 <span class="error-message text-danger"></span>
@@ -76,13 +120,13 @@ export default function Discount() {
                 </label>
                 <select
                   class="select"
-                  
+                  onChange={(event) => setCourseID(event.target.value)}
                 >
                   <option value="-1">دوره مدنظر را انتخاب کنید</option>
-                  
-                    {/* <option >
-                      
-                    </option> */}
+
+                  {allCourses.map((course) => {
+                    return <option value={course._id}>{course.name}</option>;
+                  })}
                 </select>
                 <span class="error-message text-danger"></span>
               </div>
@@ -91,7 +135,11 @@ export default function Discount() {
             <div class="col-12">
               <div class="bottom-form">
                 <div class="submit-btn">
-                  <input type="submit" value="افزودن" />
+                  <input
+                    type="submit"
+                    value="افزودن"
+                    onClick={addNewDiscountCode}
+                  />
                 </div>
               </div>
             </div>
