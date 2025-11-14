@@ -38,6 +38,7 @@ export default function Discount() {
     getAllDiscounts();
   }, []);
 
+ //get all discount
   function getAllDiscounts() {
     fetch(`http://localhost:4000/v1/discounts`, {
       headers: { Authorization: `Bearer ${localStorageData}` },
@@ -75,6 +76,31 @@ export default function Discount() {
       }
     });
   };
+
+  const deleteDiscount= (discountID)=>{
+      swal({
+        title:'آیا از حذف کد تخفیف اطمینان دارید؟',
+        icon:'warning',
+        buttons:['خیر','بله']
+      }).then(result=>{
+        if(result){
+          fetch(`http://localhost:4000/v1/discounts/${discountID}`,{
+            method:'DELETE',
+            headers:{Authorization : `Bearer ${localStorageData}`}
+          }).then(res=>{
+            if(res.ok){
+              swal({
+                title:'کد تخفیف با موفقیت حذف شد',
+                icon:'success',
+                buttons:'تایید'
+              }).then(()=>{
+                getAllDiscounts()
+              })
+            }
+          })
+        }
+      })
+  }
 
   return (
     <>
@@ -185,7 +211,7 @@ export default function Discount() {
                   <td>{discount.maxUsage}</td>
                   <td>{discount.usedCount}</td>
                   <td>
-                    <button type="button" class="btn btn-danger delete-btn">
+                    <button type="button" class="btn btn-danger delete-btn" onClick={()=>deleteDiscount(discount._id)}>
                       حذف
                     </button>
                   </td>
