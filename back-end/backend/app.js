@@ -12,6 +12,7 @@ const notificationRoutes = require("./routes/v1/notification");
 const usersRoutes = require("./routes/v1/user");
 const bodyParser = require("body-parser");
 const discountRoutes = require("./routes/v1/discounts");
+const infosRoutes = require("./routes/v1/infos");
 const cors = require("cors");
 
 const app = express();
@@ -37,5 +38,6 @@ app.use("/v1/comments", commentsRoutes);
 app.use("/v1/search", searchRoutes);
 app.use("/v1/notifications", notificationRoutes);
 app.use("/v1/discounts", discountRoutes);
+app.use("/v1/infos", infosRoutes);
 
 module.exports = app;
