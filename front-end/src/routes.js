@@ -17,6 +17,7 @@ import Sessions from "./pages/admin-panel/sessions/Sessions"
 import Session from "./pages/session/Session"
 import Comments from "./pages/admin-panel/comments/Comments"
 import Discount from "./pages/admin-panel/discount/Discount"
+import MainAdmin from "./pages/admin-panel/mainAdmin/MainAdmin"
 
 
 const routes =[
@@ -36,6 +37,7 @@ const routes =[
 
     //Paths for the admin panel
     {path : '/admin-panel/*' , element : <Index/> , children: [
+        {path : '' , element : <MainAdmin/>},
         {path : 'users' , element : <Users/>},
         {path : 'courses' , element : <AdminCourses/>},
         {path : 'menus' , element : <Menus/>},
