@@ -18,6 +18,7 @@ import Session from "./pages/session/Session"
 import Comments from "./pages/admin-panel/comments/Comments"
 import Discount from "./pages/admin-panel/discount/Discount"
 import MainAdmin from "./pages/admin-panel/mainAdmin/MainAdmin"
+import MainUser from "./pages/user-panel/MainUser"
 
 
 const routes =[
@@ -46,7 +47,11 @@ const routes =[
         {path : 'sessions' , element : <Sessions/>},
         {path : 'comments' , element : <Comments/>},
         {path : 'discount', element : <Discount/>}
-    ]}
+    ]},
+
+    {path: '/my-account/*' , element : <MainUser/> , 
+        children : []
+    }
 ]
 
 export default routes

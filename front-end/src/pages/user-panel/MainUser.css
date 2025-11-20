@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "vazir";
+  src: url("./../../fonts/Vazir/Vazir.eot");
+  src: url("./../../fonts/Vazir/Vazir.ttf");
+  src: url("./../../fonts/Vazir/Vazir.woff");
+  src: url("./../../fonts/Vazir/Vazir.woff2");
+}
+@font-face {
+  font-family: "lalezar";
+  src: url("./../../fonts/Lalezar-Font/OTF/Lalezar-Regular.otf");
+  src: url("./../../fonts/Lalezar-Font/TTF/Lalezar-Regular.ttf");
+}
+
+.content{
+    display: block;
+    font-family: lalezar;
+}
+.content-header{
+    border-top: 2px solid #2bce56;
+    border-bottom: 2px solid #2bce56;
+    padding: 2rem 0;
+}
+.content-header-title{
+    display: block;
+    font-weight: bold;
+    font-size: 2.3rem;
+}

@@ -1,0 +1,13 @@
+.sidebar{
+    margin-top: 3rem;
+}
+.sidebar-title{
+    font-size: 2rem;
+    
+}
+.sidebar-ul{
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 2rem;
+}
