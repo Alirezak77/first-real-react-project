@@ -175,3 +175,33 @@ exports.getSessionInfo = async (req, res) => {
 
   res.json({ sessions, session });
 };
+
+exports.getRelatedCourses = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+
+    // پیدا کردن دوره‌ای که رویش کلیک شده
+    const mainCourse = await courseModel.findById(courseId).lean();
+
+    if (!mainCourse) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    // پیدا کردن ۴ دوره دیگر با همان دسته‌بندی
+    const relatedCourses = await courseModel
+      .find({
+        category: mainCourse.category,
+        _id: { $ne: mainCourse._id }, // همین دوره نباشه
+      })
+      .limit(4)
+      .lean();
+
+    return res.status(200).json({
+      relatedCourses,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+

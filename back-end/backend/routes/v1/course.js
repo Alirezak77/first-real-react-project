@@ -23,6 +23,7 @@ router
   )
   .get(courseController.getAll);
 
+router.get("/related/:id", courseController.getRelatedCourses);
 router.route("/:id").delete(courseController.remove);
 
 router
