@@ -19,8 +19,9 @@ export default function CoursInfo() {
   const { coursName } = useParams();
   const localStorageData = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    const fetchData = async () => {
+
+  
+     async function  fetchData()  {
       setLoading(true); // شروع لود
       try {
         const res = await fetch(
@@ -54,10 +55,13 @@ export default function CoursInfo() {
         setLoading(false); // تموم شد
       }
     };
+  useEffect(() => {
+
 
     fetchData();
     console.log(courseDetail);
   }, [coursName]);
+
 
   if (loading || !courseDetail) {
     return (
@@ -86,6 +90,34 @@ export default function CoursInfo() {
       }
     });
   };
+
+  //register in course
+  const coureRegister = (course)=>{
+    if(course.price ===0){
+      swal({
+        title:'آیا از ثبت نام در دوره اطمینان دارید؟',
+        icon:'warning',
+        buttons:['خیر','بله']
+      }).then(result=>{
+        if(result){
+          fetch(`http://localhost:4000/v1/courses/${course._id}/register`,{
+            method:'POST',
+            headers: {Authorization : `Bearer ${localStorageData}`}
+          }).then(res=>{
+            if(res.ok){
+              swal({
+                title:'با موفقیت ثبت نام شدید',
+                icon:'success',
+                buttons:'تایید'
+              }).then(()=>{
+                fetchData()
+              })
+            }
+          })
+        }
+      })
+    }
+  }
 
   return (
     <>
@@ -374,10 +406,17 @@ export default function CoursInfo() {
               <div class="courses-info">
                 <div class="course-info">
                   <div class="course-info__register">
-                    <span class="course-info__register-title">
-                      <i class="fas fa-graduation-cap course-info__register-icon"></i>
-                      دانشجوی دوره هستید
-                    </span>
+                    {courseDetail.isUserRegisteredToThisCourse ? (
+                      <span class="course-info__register-title">
+                        <i class="fas fa-graduation-cap course-info__register-icon"></i>
+                        دانشجوی دوره هستید
+                      </span>
+                    ) : (
+                      <span class="course-info__register-title" onClick={()=> coureRegister(courseDetail)}>
+                        <i class="fas fa-graduation-cap course-info__register-icon"></i>
+                        ثبت نام در دوره
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div class="course-info">
