@@ -1,16 +1,14 @@
-.col-4 {
+
+.main-link{
+    display: flex;
+    justify-content: center;
     padding: 2rem;
     border: 2px solid #2bce34; 
     border-radius: 10px;
     margin: 5px;
-    
-} 
-
-.col-4:hover{
+}
+.main-link:hover{
     background-color: #2bce34;
     color: white;
-}
-.main-link{
-    display: flex;
-    justify-content: center;
+
 }
