@@ -205,3 +205,23 @@ exports.getRelatedCourses = async (req, res) => {
   }
 };
 
+exports.getUserCourses = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const userCourses = await courseUserModel
+      .find({ user: userId })
+      .populate("course")
+      .lean();
+
+    // فقط اطلاعات دوره را برگردانیم
+    const courses = userCourses.map((item) => item.course);
+
+    return res.status(200).json(courses);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "مشکلی در دریافت دوره‌های کاربر رخ داد" });
+  }
+};
+
+

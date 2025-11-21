@@ -23,6 +23,11 @@ router
   )
   .get(courseController.getAll);
 
+router
+  .route("/my-courses")
+  .get(authenticatedMiddleware, courseController.getUserCourses);
+
+
 router.get("/related/:id", courseController.getRelatedCourses);
 router.route("/:id").delete(courseController.remove);
 
