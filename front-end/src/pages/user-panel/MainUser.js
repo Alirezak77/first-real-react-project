@@ -2,6 +2,7 @@ import React from 'react'
 import './MainUser.css'
 import NavBar from '../../components/nav-bar/NavBar'
 import SaidBar from '../../components/user-panel/sidebar/SaidBar'
+import { Outlet } from 'react-router-dom'
 
 export default function MainUser() {
   return (
@@ -19,6 +20,7 @@ export default function MainUser() {
             <div className='container'>
                 <div className='row'>
                     <SaidBar/>
+                    <Outlet/>
                 </div>
             </div>
 

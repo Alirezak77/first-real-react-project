@@ -1,0 +1,16 @@
+.col-4 {
+    padding: 2rem;
+    border: 2px solid #2bce34; 
+    border-radius: 10px;
+    margin: 5px;
+    
+} 
+
+.col-4:hover{
+    background-color: #2bce34;
+    color: white;
+}
+.main-link{
+    display: flex;
+    justify-content: center;
+}

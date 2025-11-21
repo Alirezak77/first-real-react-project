@@ -19,6 +19,7 @@ import Comments from "./pages/admin-panel/comments/Comments"
 import Discount from "./pages/admin-panel/discount/Discount"
 import MainAdmin from "./pages/admin-panel/mainAdmin/MainAdmin"
 import MainUser from "./pages/user-panel/MainUser"
+import UserIndex from "./pages/user-panel/user-index/UserIndex"
 
 
 const routes =[
@@ -50,7 +51,9 @@ const routes =[
     ]},
 
     {path: '/my-account/*' , element : <MainUser/> , 
-        children : []
+        children : [
+            {path : '' , element : <UserIndex/>}
+        ]
     }
 ]
 
