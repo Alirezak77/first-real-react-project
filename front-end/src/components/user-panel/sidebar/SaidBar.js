@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import './SideBar.css'
 import swal from 'sweetalert'
 import AuthContex from '../../../contex/authContex'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function SaidBar() {
 
@@ -37,7 +37,7 @@ export default function SaidBar() {
                     <a href="">جزییات حساب کاربری</a>
                 </li>
                 <li className='sidebar-li'>
-                    <a href="">دوره های خریداری شده</a>
+                    <Link to={'courses'}>دوره های خریداری شده</Link>
                 </li>
                 <li className='sidebar-li'>
                     <a href="">تیکت های پشتیبانی</a>

@@ -1,0 +1,47 @@
+.courses{
+    border-right: 2px solid #2cde32;
+    padding-right: 3rem;
+}
+.course-header-text{
+    font-size: 2.5rem;
+}
+.main-box{
+    display: flex;
+    margin: 2rem 0;
+    border: 2px solid #2cde32;
+    border-radius: 0.5rem;
+}
+.main-box-right{
+    width: 30%;
+}
+.main-box-img{
+    width: 100%;
+}
+.main-box-left{
+    padding-right: 2rem ;
+}
+
+.main-box-title{
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 2rem ;
+}
+.main-box-buttom{
+    display: flex;
+    margin-top: 0.5rem;
+}
+.main-box-all{
+    margin-left: 3rem;
+}
+.main-box-all-text{
+    color: #2cde32;
+    font-weight: bold;
+}
+.main-box-completed{
+    margin-left: 3rem;
+}
+.main-box-completed-text{
+    color: #2cde32;
+    font-weight: bold;
+}

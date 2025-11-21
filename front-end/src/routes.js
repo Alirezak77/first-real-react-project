@@ -20,6 +20,7 @@ import Discount from "./pages/admin-panel/discount/Discount"
 import MainAdmin from "./pages/admin-panel/mainAdmin/MainAdmin"
 import MainUser from "./pages/user-panel/MainUser"
 import UserIndex from "./pages/user-panel/user-index/UserIndex"
+import UserCourses from "./pages/user-panel/user-courses/UserCourses"
 
 
 const routes =[
@@ -50,9 +51,12 @@ const routes =[
         {path : 'discount', element : <Discount/>}
     ]},
 
+
+    //paths for the user panel 
     {path: '/my-account/*' , element : <MainUser/> , 
         children : [
-            {path : '' , element : <UserIndex/>}
+            {path : '' , element : <UserIndex/>},
+            {path : 'courses' , element : <UserCourses/>}
         ]
     }
 ]
