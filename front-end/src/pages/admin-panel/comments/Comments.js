@@ -104,7 +104,7 @@ export default function Comments() {
 
   return (
     <>
-      <DataTable title={"منو ها"}>
+      <DataTable title={"کامنت ها"}>
         <table class="table">
           <thead>
             <tr>
