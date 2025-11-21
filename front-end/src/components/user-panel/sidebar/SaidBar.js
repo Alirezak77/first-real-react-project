@@ -5,7 +5,6 @@ export default function SaidBar() {
   return (
     <div className='col-3'>
         <div className='sidebar'>
-            <span className='sidebar-title'>سلام علیرضا</span>
             <ul className='sidebar-ul'>
                 <li className='sidebar-li'>
                     <a href="">جزییات حساب کاربری</a>
