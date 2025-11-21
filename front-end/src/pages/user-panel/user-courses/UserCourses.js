@@ -35,14 +35,10 @@ export default function UserCourses() {
                       </Link>
                       <div className="main-box-buttom">
                         <div className="main-box-all">
-                          <span className="main-box-all-text">کل دروس: </span>
-                          <span className="main-box-all-value">75</span>
-                        </div>
-                        <div className="main-box-completed">
-                          <span className="main-box-completed-text">
-                            دروس تکمیل شده:{" "}
+                          <span className="main-box-all-text">وضعیت :</span>
+                          <span className="main-box-all-value">
+                                {course.isCompleted === 1 ? 'تکمیل شده' :'درحال برگزاری'}
                           </span>
-                          <span className="main-box-completed-value">2/75</span>
                         </div>
                       </div>
                     </div>
